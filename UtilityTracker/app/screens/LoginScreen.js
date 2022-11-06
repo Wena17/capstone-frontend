@@ -1,14 +1,20 @@
 import React, {useState} from 'react';
-import { Image, View, StyleSheet, useWindowDimensions, ScrollView } from 'react-native';
+import { Image, View, StyleSheet, useWindowDimensions, ScrollView, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Logo from '../assets/UTLogo.png';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
+import { useTogglePasswordVisibility } from '../components/UseTogglePasswordVisibility';
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Pressable } from 'react-native';
 
 const LoginScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation();  
 
   const [username, setUsername] = useState('');
+  const { passwordVisibility, rightIcon, handlePasswordVisibility } =
+    useTogglePasswordVisibility();
   const [password, setPassword] = useState('');
 
   const {height} = useWindowDimensions();
@@ -36,12 +42,18 @@ const LoginScreen = () => {
           value={username} 
           setValue={setUsername}
         />    
-        <CustomInput 
-          placeholder="Password" 
-          value={password} 
-          setValue={setPassword} 
-          secureTextEntry
-        />
+        <View style={styles.passContainer}>
+          <TextInput 
+            placeholder="Password" 
+            value={password} 
+            secureTextEntry={passwordVisibility}
+            onChangeText= {setPassword}
+            style={styles.input} 
+          />
+          <Pressable onPress={handlePasswordVisibility}>
+            <MaterialCommunityIcons name={rightIcon} size={22} color='black' />
+          </Pressable>
+        </View>
         <CustomButton 
           text="Login"
           onPress={onLoginPressed}
@@ -72,6 +84,17 @@ const styles = StyleSheet.create({
     maxWidth: 350,
     MaxHeight: 200,
     top: '5%'
+  },
+  passContainer: {
+    backgroundColor: 'white',
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderColor: '#F4F1BB',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 8,
+    marginVertical: 10,
   },
 })
 
