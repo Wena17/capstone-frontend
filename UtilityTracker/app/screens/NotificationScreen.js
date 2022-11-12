@@ -1,5 +1,6 @@
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Pressable } from 'react-native';
 import React from 'react';
+import CustomNotif from '../components/CustomNotif';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -12,16 +13,27 @@ const NotificationScreen = () => {
   const onUserIconPressed = () => {
     navigation.openDrawer();
   }
+  const onDeletePressed = () => {
+    console.warn('onDeletePressed');
+  }
   return (
     <SafeAreaView>
       <ScrollView scrollEventThrottle={16}>
-        <View style={styles.titleContainer}>
+        <View style={styles.titleContainer}>          
+          <View style={styles.userButton}>
+            <Pressable onPress={onUserIconPressed}>
+              <FontAwesome name="user-circle" size={34} color="gray" />
+            </Pressable>
+          </View>
           <Text style={styles.title}>Notification</Text>
         </View>
-        <View style={styles.userButton}>
-          <Pressable onPress={onUserIconPressed}>
-            <FontAwesome name="user-circle" size={34} color="gray" />
-          </Pressable>
+        <View>
+        <CustomNotif
+          title='Tittle'
+          info='Outage info'           
+          btnText='Delete'
+          onPress={onDeletePressed}
+        />   
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -32,15 +44,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: '700',
-    paddingLeft: 10
+    paddingTop: 12,
   },
   titleContainer: { 
     flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center'
+    flexDirection: 'row',
   },
-  userButton: {
-    alignSelf: 'flex-start',    
+  userButton: { 
     padding: 10,
   },
 })

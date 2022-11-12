@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TextInput, Text, ScrollView} from 'react-native';
+import {View, StyleSheet, TextInput, Text, ScrollView, Pressable} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
+import { useTogglePasswordVisibility } from '../components/UseTogglePasswordVisibility';
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 const SignupScreen = () => {
@@ -14,6 +17,10 @@ const SignupScreen = () => {
   const [phoneNo, setPhoneNo] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
+  const { passwordVisibility, rightIcon, handlePasswordVisibility } =
+    useTogglePasswordVisibility();
+  const { passwordVerifyVisibility, rightVerifyIcon, handlePasswordVerifyVisibility } =
+  useTogglePasswordVisibility();
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
 
@@ -37,7 +44,7 @@ const SignupScreen = () => {
       })
     })
     .then((response) => {
-      alert("Successfully created an account");
+      alert("Successfully created an account" + response);
       navigation.navigate('ConnectDevice');
     })
     .catch((error) => {
@@ -88,18 +95,28 @@ const SignupScreen = () => {
         value={username} 
         setValue={setUsername}
       />
-      <CustomInput 
-        placeholder="Password" 
-        value={password} 
-        setValue={setPassword} 
-        secureTextEntry 
-      />
-      <CustomInput 
-        placeholder="Verify Password" 
-        value={passwordRepeat} 
-        setValue={setPasswordRepeat} 
-        secureTextEntry
-      />      
+      <View style={styles.passContainer}>
+        <TextInput 
+          placeholder="Password" 
+          value={password} 
+          secureTextEntry={passwordVisibility}
+          onChangeText= {setPassword}
+        />
+        <Pressable onPress={handlePasswordVisibility}>
+          <MaterialCommunityIcons name={rightIcon} size={22} color='#232323' />
+        </Pressable>
+      </View>
+      <View style={styles.passContainer}>
+        <TextInput 
+          placeholder="Verify Password" 
+          value={passwordRepeat} 
+          secureTextEntry={passwordVerifyVisibility}
+          onChangeText= {setPasswordRepeat}
+        />
+        <Pressable onPress={handlePasswordVerifyVisibility}>
+          <MaterialCommunityIcons name={rightVerifyIcon} size={22} color='#232323' />
+        </Pressable>
+      </View>     
       <Text style={styles.text}>
         By registering, you confirm that you accept our{' '}
         <Text style={styles.link} onPress={onTermsOfUsePressed}>Terms of Use</Text>{' '}
@@ -128,6 +145,17 @@ const styles = StyleSheet.create({
   }, 
   link: {
     color: '#B6C649',
+  },
+  passContainer: {
+    backgroundColor: 'white',
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderColor: '#F4F1BB',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 8,
+    marginVertical: 10,
   },
   text: {
     color: 'gray',

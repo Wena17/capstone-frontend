@@ -3,27 +3,28 @@ import React from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
-const HelpScreen = () => {
+const EditProfileScreen = () => {
   const navigation = useNavigation();
 
-  const onUserIconPressed = () => {
-    navigation.openDrawer();
+  const onBackIconPressed = () => {
+    navigation.goBack()
   }
   return (
     <SafeAreaView>
       <ScrollView scrollEventThrottle={16}>
         <View style={styles.titleContainer}>          
           <View style={styles.userButton}>
-            <Pressable onPress={onUserIconPressed}>
-              <FontAwesome name="user-circle" size={34} color="gray" />
+            <Pressable onPress={onBackIconPressed}>
+              <Ionicons name="return-up-back" size={20} color="black" />
             </Pressable>
           </View>
-          <Text style={styles.title}>Help</Text>
+          <Text style={styles.title}>Update Profile</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
+    
   )
 };
 
@@ -42,4 +43,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HelpScreen
+export default EditProfileScreen

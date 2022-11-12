@@ -16,7 +16,7 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
 import {useNavigation} from '@react-navigation/native'
 
-const CustomDrawer = (props, {onPress}) => {
+const DrawerScreen = (props) => {
   const navigation =  useNavigation()
 
   const onEditPressed = () => {
@@ -46,7 +46,7 @@ const CustomDrawer = (props, {onPress}) => {
                   color: '#fff',
                   marginRight: 5,
                 }}
-                onPress={onPress}
+                onPress={onEditPressed}
               >
                 Edit Profile
               </Text>
@@ -87,4 +87,4 @@ const CustomDrawer = (props, {onPress}) => {
   );
 };
 
-export default CustomDrawer;
+export default DrawerScreen

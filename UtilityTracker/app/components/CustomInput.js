@@ -4,11 +4,11 @@ import React from 'react'
 const customInput = ({value, setValue, placeholder, secureTextEntry}) => {
   return (
     <View style={styles.container}>
-      <TextInput 
+      <TextInput        
+        style={styles.input} 
         value={value}
         onChangeText= {setValue}
-        placeholder={placeholder} 
-        style={styles.input} 
+        placeholder={placeholder}
         secureTextEntry={secureTextEntry}
       />
     </View>

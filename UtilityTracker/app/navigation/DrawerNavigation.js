@@ -10,6 +10,7 @@ import HelpScreen from '../screens/HelpScreen';
 import FeedbackScreen from '../screens/FeedbackScreen';
 import AboutUsScreen from '../screens/AboutUsScreen';
 import CustomDrawer from '../components/CustomDrawer';
+import DrawerScreen from '../screens/DrawerScreen';
 
 import { Ionicons, Octicons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 
@@ -18,7 +19,7 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigation = () => {
   return (
     <Drawer.Navigator
-      drawerContent={props => <CustomDrawer {...props} />}
+      drawerContent={props => <DrawerScreen {...props} />}
       screenOptions={{
         headerShown: false,
         drawerActiveBackgroundColor: '#5885AF',

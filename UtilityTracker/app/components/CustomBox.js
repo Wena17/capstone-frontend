@@ -53,4 +53,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default CustomBox
+export default CustomBox;

@@ -1,34 +1,34 @@
-import { View, Text, ScrollView, StyleSheet, SafeAreaView, Pressable } from 'react-native';
-import React from 'react';
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, Pressable, Button, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-
-import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 import CustomImageView from '../components/CustomImageView';
 import CustomButton from '../components/CustomButton';
 import CustomBox from '../components/CustomBox';
 
-const HomeScreen = () => {
+const HomeScreen = ({route}) => {
 
   const navigation = useNavigation();
-
-  const onAddPressed = () => {
-    console.warn('onAddPressed');
-  }
-  const onUserIconPressed = () => {
+  
+  const onMenuIconPressed = () => {
     navigation.openDrawer();
   }
-  const onViewPressed = () => {
-    console.warn('onViewPressed');
+  
+  const handleAddModal = () => {
+    navigation.navigate('AddModal');
   }
-
+  const handleViewModal = () => {
+    navigation.navigate('ViewModal');
+  }
+  
   return (
     <SafeAreaView>
       <ScrollView scrollEventThrottle={16}  >
         <View>
           <View style={styles.userButton}>
-            <Pressable onPress={onUserIconPressed}>
-              <FontAwesome name="user-circle" size={34} color="gray" />
+            <Pressable onPress={onMenuIconPressed}>
+              <AntDesign name="menufold" size={34} color="gray" />
             </Pressable>
           </View>
           <View style={styles.titleContainer}>
@@ -60,7 +60,7 @@ const HomeScreen = () => {
             <View style={styles.button}>
               <CustomButton 
                 text='Add' 
-                onPress={onAddPressed} 
+                onPress={handleAddModal} 
                 />
             </View>
           </View>
@@ -70,10 +70,9 @@ const HomeScreen = () => {
             location='Cebu City' 
             imgSource = {require("../assets/Pinned.png")}             
             btnText='View'
-            onPress={onViewPressed}
+            onPress={handleViewModal}
           />          
         </View>
-        
       </ScrollView>
     </SafeAreaView>
   )
@@ -101,6 +100,27 @@ const styles = StyleSheet.create({
   userButton: {
     alignSelf: 'flex-start',    
     padding: 10,
+  },
+  text: {
+    fontSize: 16,
+    fontWeight: "400",
+    textAlign: "center",
+  },
+  input: {
+    paddingTop: 10,
+  },
+  modal: {
+    width: "100%",
+    height: "70%",
+    alignItems: "center",
+    justifyContent: "center",
+  },  
+  separator: {
+    marginVertical: 20,
+    height: 1,
+    width: '100%',    
+    borderColor: "grey",
+    borderBottomWidth: 2,
   },
 })
 

@@ -26,7 +26,7 @@ const LoginScreen = () => {
     navigation.navigate('ForgotPassword');
   }
   const onSignUpPressed = () => {
-    navigation.navigate('Signup');
+    navigation.navigate('Signup')
   }
 
   return (
@@ -48,7 +48,6 @@ const LoginScreen = () => {
             value={password} 
             secureTextEntry={passwordVisibility}
             onChangeText= {setPassword}
-            style={styles.input} 
           />
           <Pressable onPress={handlePasswordVisibility}>
             <MaterialCommunityIcons name={rightIcon} size={22} color='black' />

@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import HomeScreen from '../screens/HomeScreen';
 import OutageMapScreen from '../screens/OutageMapScreen';
@@ -34,7 +34,7 @@ const TabBar = () => {
       <Tab.Screen name='Outage map' component={OutageMapScreen}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Ionicons name="md-map" color={color} size={size} />
+            <MaterialCommunityIcons name="map-marker-distance" color={color} size={size} />
           ),
         }}
         />      

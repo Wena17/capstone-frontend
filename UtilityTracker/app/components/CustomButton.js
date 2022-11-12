@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 
-const CustomButton = ({onPress, text, type = "PRIMARY", bgColor, fgColor}) => {
+const CustomButton = ({ disabled, onPress, text, type = "PRIMARY", bgColor, fgColor}) => {
   return (
     <Pressable 
       onPress={onPress} 
+      disabled={disabled}
       style={[
         styles.container, 
         styles[`container_${type}`],
@@ -41,6 +42,10 @@ const styles = StyleSheet.create({
 
   container_SECONDARY: {
     borderColor: '#5CA4A9',
+    borderWidth: 2,
+  },
+  container_DISABLED: {
+    borderColor: 'gray',
     borderWidth: 2,
   },
 
