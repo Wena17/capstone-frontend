@@ -12,36 +12,44 @@ import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import NewPasswordScreen from '../screens/NewPasswordScreen';
 import ConnectDeviceScreen from '../screens/ConnectDeviceScreen';
 import DrawerNavigation from './DrawerNavigation';
+import TabBar from './TabBar';
 import AlternativePowerSource from '../screens/AlternativePowerSource';
 import AddAlternativeScreen from '../screens/AddAlternativeScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import SearchLocationScreen from '../screens/SearchLocationScreen';
 import AddModal from '../screens/AddModal';
 import ViewModal from '../screens/ViewModal';
-import Temporary from '../screens/Temporary'
+import ViewAlternativePowerScreen from '../screens/ViewAlternativePowerScreen';
 
 const Stack = createStackNavigator();
 
-const Navigation = () => {
+const Navigation = (props) => {
+  
   return (
     <NavigationContainer>
       <StatusBar/>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name='Welcome' component={WelcomeScreen} />
-        <Stack.Screen name='Login' component={LoginScreen} />
-        <Stack.Screen name='Signup' component={SignupScreen} />
+        <Stack.Screen name='Welcome' component={WelcomeScreen}/>
+        <Stack.Screen name='Login' >
+          {(p) => <LoginScreen onAuth={props.onAuth} /> }
+        </Stack.Screen>
+        <Stack.Screen name='Signup' >
+          {(p) => <SignupScreen onAuth={props.onAuth} /> }
+        </Stack.Screen>
+        <Stack.Screen name='ConnectDevice' component={ConnectDeviceScreen} /> 
         <Stack.Screen name='ConfirmEmail' component={ConfirmEmailScreen} />
         <Stack.Screen name='ForgotPassword' component={ForgotPasswordScreen} />
         <Stack.Screen name='NewPassword' component={NewPasswordScreen}/>
-        <Stack.Screen name='Home1' component={DrawerNavigation}  />
-        <Stack.Screen name='ConnectDevice' component={ConnectDeviceScreen} />        
+        <Stack.Screen name='Home1' > 
+          {(p) => <TabBar authToken={props.authToken} /> }
+        </Stack.Screen>
+        <Stack.Screen name='AddModal' component={AddModal} />
+        <Stack.Screen name='ViewModal' component={ViewModal}/>       
         <Stack.Screen name='AlternativePowerSource' component={AlternativePowerSource} />
         <Stack.Screen name='AddAlternativePowerSource' component={AddAlternativeScreen} />
-        <Stack.Screen name='AddModal' component={AddModal} />
-        <Stack.Screen name='ViewModal' component={ViewModal} />
+        <Stack.Screen name='ViewAlternativePower' component={ViewAlternativePowerScreen} />     
         <Stack.Screen name='EditProfile' component={EditProfileScreen} />
         <Stack.Screen name='Search' component={SearchLocationScreen}  />
-        <Stack.Screen name='Temporary' component={Temporary} />
       </Stack.Navigator>
     </NavigationContainer>
   )

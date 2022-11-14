@@ -9,18 +9,43 @@ import { useTogglePasswordVisibility } from '../components/UseTogglePasswordVisi
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
 
-const LoginScreen = () => {
+const LoginScreen = (props) => {
+  
   const navigation = useNavigation();  
 
-  const [username, setUsername] = useState('');
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
 
   const {height} = useWindowDimensions();
 
   const onLoginPressed = () => {
-    navigation.navigate('Home1')
+    fetch('https://outage-monitor.azurewebsites.net/api/v1/login', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      if(json.status == 'success') {
+        alert(json.message);
+        props.onAuth(json.auth_token)
+        navigation.navigate('Home1')
+      }
+      else {
+        alert(json.message);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    })
   }
   const onForgotPasswordPressed = () => {
     navigation.navigate('ForgotPassword');
@@ -38,9 +63,9 @@ const LoginScreen = () => {
           resizeMode="contain"
         />
         <CustomInput
-          placeholder="Username"
-          value={username} 
-          setValue={setUsername}
+          placeholder="Email"
+          value={email} 
+          setValue={setEmail}
         />    
         <View style={styles.passContainer}>
           <TextInput 

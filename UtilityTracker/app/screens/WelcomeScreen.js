@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, View, Image, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 function WelcomeScreen() {
   const navigation = useNavigation();
@@ -14,6 +16,7 @@ function WelcomeScreen() {
     <View style={styles.container}>
       <Image style={styles.logo} source={require("../assets/UTLogo.png")}></Image>
       <Pressable style={styles.circle} onPress={welcomeOnPressed} >
+        <MaterialIcons name="keyboard-arrow-right" size={100} color="#CDCDCD" />
       </Pressable>
     </View> 
   );

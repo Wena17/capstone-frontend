@@ -9,7 +9,6 @@ import ReportOutage from '../screens/ReportOutage';
 import HelpScreen from '../screens/HelpScreen';
 import FeedbackScreen from '../screens/FeedbackScreen';
 import AboutUsScreen from '../screens/AboutUsScreen';
-import CustomDrawer from '../components/CustomDrawer';
 import DrawerScreen from '../screens/DrawerScreen';
 
 import { Ionicons, Octicons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
@@ -44,7 +43,7 @@ const DrawerNavigation = () => {
         component={OutageHistoryScreen}
         options={{
           drawerIcon: ({color}) => (
-            <Octicons    name="history" size={20} color={color} />
+            <Octicons name="history" size={20} color={color} />
           ),
         }}
       />
@@ -53,7 +52,7 @@ const DrawerNavigation = () => {
         component={AlternativePowerSource}
         options={{
           drawerIcon: ({color}) => (
-            <FontAwesome5  name="superpowers" size={22} color={color} />
+            <FontAwesome5 name="superpowers" size={22} color={color} />
           ),
         }}
       />
@@ -62,7 +61,7 @@ const DrawerNavigation = () => {
         component={ReportOutage}
         options={{
           drawerIcon: ({color}) => (
-            <Octicons  name="report" size={20} color={color} />
+            <Octicons name="report" size={20} color={color} />
           ),
         }}
       />

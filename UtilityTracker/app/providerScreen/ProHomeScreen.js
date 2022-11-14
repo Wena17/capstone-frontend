@@ -7,9 +7,9 @@ import CustomImageView from '../components/CustomImageView';
 import CustomButton from '../components/CustomButton';
 import CustomBox from '../components/CustomBox';
 
-const HomeScreen = (props) => {
-  const navigation = useNavigation();
+const HomeScreen = ({route}) => {
 
+  const navigation = useNavigation();
   const onMenuIconPressed = () => {
     navigation.openDrawer();
   }

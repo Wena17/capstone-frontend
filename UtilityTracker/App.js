@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import Navigation from './app/navigation/AppStack';
 
 const App = () => {
+  const [authToken, setAuthToken] = useState(null)
   return ( 
     <SafeAreaView style={styles.root}>
-      <Navigation/>
+      <Navigation authToken={authToken} onAuth={setAuthToken}/>
     </SafeAreaView>
   );
 };

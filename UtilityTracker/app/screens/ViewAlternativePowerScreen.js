@@ -1,11 +1,10 @@
-
 import { View, Text, StyleSheet } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Modal } from '../components/CustomModal';
 import CustomButton from '../components/CustomButton';
 
-const ViewModal = ({route}) => {
+const ViewAlternativePowerScreen = ({route}) => {
   const navigation = useNavigation();
   const [isAddModalVisible, setAddModalVisible] = useState(true);  
   const [pinnedName, setPinnedName] = useState('Pinned location');
@@ -24,12 +23,13 @@ const ViewModal = ({route}) => {
   }, [route.params?.post]);
   
   const handleViewPinned = () => {
-    //TODO pass the parameter address and open in the map.
+    //TODO pass the parameter address and open in the map.    
+    navigation.navigate('Home1', {screen: 'Alternative Power Source'})
     setAddModalVisible(() => !isAddModalVisible);
   };
   const handleViewDecline = () => {
     setAddModalVisible(() => !isAddModalVisible);
-    navigation.navigate('Home1', {screen: 'Home'})
+    navigation.navigate('Home1', {screen: 'Alternative Power Source'})
   }
 
   return (
@@ -85,4 +85,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ViewModal
+export default ViewAlternativePowerScreen

@@ -4,14 +4,14 @@ import CustomNotif from '../components/CustomNotif';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 
 const NotificationScreen = () => {
   const navigation = useNavigation();
 
-  const onUserIconPressed = () => {
-    navigation.openDrawer();
+  const onMenuIconPressed = () => {
+    navigation.navigate('Home1', {screen: 'Home2'})
   }
   const onDeletePressed = () => {
     console.warn('onDeletePressed');
@@ -21,8 +21,8 @@ const NotificationScreen = () => {
       <ScrollView scrollEventThrottle={16}>
         <View style={styles.titleContainer}>          
           <View style={styles.userButton}>
-            <Pressable onPress={onUserIconPressed}>
-              <FontAwesome name="user-circle" size={34} color="gray" />
+            <Pressable onPress={onMenuIconPressed}>
+              <AntDesign name="menufold" size={30} color="gray" />
             </Pressable>
           </View>
           <Text style={styles.title}>Notification</Text>

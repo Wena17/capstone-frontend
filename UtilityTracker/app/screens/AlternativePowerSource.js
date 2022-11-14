@@ -5,17 +5,17 @@ import CustomButton from '../components/CustomButton';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 
 const AlternativePowerSource = () => {
   const navigation = useNavigation();
 
-  const onUserIconPressed = () => {
+  const onMenuIconPressed = () => {
     navigation.openDrawer();
   }
   const onViewPressed = () => {
-    console.warn('onViewPressed');
+    navigation.navigate('ViewAlternativePower')
   }
   const onAddPressed = () => {
     navigation.navigate('AddAlternativePowerSource')
@@ -25,8 +25,8 @@ const AlternativePowerSource = () => {
       <ScrollView scrollEventThrottle={16}>
         <View style={styles.titleContainer}>          
           <View style={styles.userButton}>
-            <Pressable onPress={onUserIconPressed}>
-              <FontAwesome name="user-circle" size={34} color="gray" />
+            <Pressable onPress={onMenuIconPressed}>
+              <AntDesign name="menufold" size={30} color="gray" />
             </Pressable>
           </View>
           <Text style={styles.title}>Alternative Power Source</Text>

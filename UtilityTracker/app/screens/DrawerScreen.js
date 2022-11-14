@@ -23,7 +23,7 @@ const DrawerScreen = (props) => {
     navigation.navigate('EditProfile')
   }
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, height: '90%'}}>
       <DrawerContentScrollView
         {...props}
         contentContainerStyle={{backgroundColor: '#5885AF'}}>
@@ -53,11 +53,11 @@ const DrawerScreen = (props) => {
             </Pressable>
           </View>
         </ImageBackground>
-        <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 10}}>
+        <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 5}}>
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
-      <View style={{padding: 20, borderTopWidth: 1, borderTopColor: '#ccc'}}>
+      <View style={{padding: 20, borderTopWidth: 1, borderTopColor: '#ccc', marginBottom: '20%'}}>
         <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Ionicons name="share-social-outline" size={22} />

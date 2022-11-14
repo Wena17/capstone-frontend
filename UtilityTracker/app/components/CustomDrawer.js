@@ -57,7 +57,7 @@ const CustomDrawer = (props, {onPress}) => {
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
-      <View style={{padding: 20, borderTopWidth: 1, borderTopColor: '#ccc'}}>
+      <View style={{padding: 10, borderTopWidth: 1, borderTopColor: '#ccc'}}>
         <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Ionicons name="share-social-outline" size={22} />

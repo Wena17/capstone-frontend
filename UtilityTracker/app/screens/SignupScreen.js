@@ -8,7 +8,7 @@ import { useTogglePasswordVisibility } from '../components/UseTogglePasswordVisi
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const SignupScreen = () => {
+const SignupScreen = (props) => {
   const navigation = useNavigation();
 
   const [accountID, setAccountID] = useState('');
@@ -16,7 +16,6 @@ const SignupScreen = () => {
   const [lastName, setLastName] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
   const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
   const { passwordVerifyVisibility, rightVerifyIcon, handlePasswordVerifyVisibility } =
@@ -39,7 +38,6 @@ const SignupScreen = () => {
         lastName: lastName,
         phoneNo: phoneNo,
         email: email,
-        username: username,
         password: password
       })
     })
@@ -89,11 +87,6 @@ const SignupScreen = () => {
         placeholder="Email" 
         value={email} 
         setValue={setEmail}
-      />
-      <CustomInput 
-        placeholder="Username" 
-        value={username} 
-        setValue={setUsername}
       />
       <View style={styles.passContainer}>
         <TextInput 

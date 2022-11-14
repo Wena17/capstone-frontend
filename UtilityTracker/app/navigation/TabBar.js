@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 
 const INITIAL_ROUTE_NAME = 'Home2';
 
-const TabBar = () => {
+const TabBar = (props) => {
   return (
     <Tab.Navigator initialRouteName={INITIAL_ROUTE_NAME} screenOptions={{
       headerShown: false,
@@ -38,7 +38,7 @@ const TabBar = () => {
           ),
         }}
         />      
-      <Tab.Screen name='Home2' component={HomeScreen} 
+      <Tab.Screen name='Home2' 
       options={{
         tabBarIconStyle: {
           top: -30, 
@@ -52,7 +52,9 @@ const TabBar = () => {
           <Ionicons name="home" color={color} size={size} />
         )
       }}
-      />
+      >
+        {(p) => <HomeScreen authToken={props.authToken} /> } 
+      </Tab.Screen>
       <Tab.Screen name='Notification' component={NotificationScreen} 
       options={{
         tabBarBadge: 3,

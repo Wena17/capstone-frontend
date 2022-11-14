@@ -13,7 +13,8 @@ Geocoder.init(GOOGLE_API_KEY);
 
 const AddModal = ({route}) => {
   const navigation = useNavigation();
-  const [disabled, setDisabled] = useState(false);  
+  const [disabled, setDisabled] = useState(false);    
+  const [saveDisabled, setSaveDisabled] = useState(true);  
   const [color, setColor] = useState('');
   const [isAddModalVisible, setAddModalVisible] = useState(true);
   const [value, setValue] = useState('');
@@ -26,6 +27,7 @@ const AddModal = ({route}) => {
     if (route.params?.post) {
       alert(route.params?.post);
       setDisabled(true);
+      setSaveDisabled(false);
       setColor('DISABLED');
       setLocation({ 
         address: route.params?.post
@@ -39,6 +41,7 @@ const AddModal = ({route}) => {
       address: 'Locating....' 
     });    
     setDisabled(true);
+    setSaveDisabled(false);
     setColor('DISABLED');
     let {status} = await Location.requestForegroundPermissionsAsync();
     if(status !== 'granted') {
@@ -71,6 +74,7 @@ const AddModal = ({route}) => {
     navigation.navigate('Home1', {screen: 'Home'})
   };
   const handleAddDecline = () => {
+    //TODO inform user that the data will be lost when they click cancel
     setAddModalVisible(() => !isAddModalVisible);
     navigation.navigate('Home1', {screen: 'Home'})
   }
