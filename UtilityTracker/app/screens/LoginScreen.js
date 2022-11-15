@@ -36,7 +36,8 @@ const LoginScreen = (props) => {
     .then((json) => {
       if(json.status == 'success') {
         alert(json.message);
-        props.onAuth(json.auth_token)
+        props.model.authToken = json.auth_token
+        props.onUpdate(props.model)
         navigation.navigate('Home1')
       }
       else {

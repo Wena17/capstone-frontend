@@ -31,17 +31,17 @@ const Navigation = (props) => {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name='Welcome' component={WelcomeScreen}/>
         <Stack.Screen name='Login' >
-          {(p) => <LoginScreen onAuth={props.onAuth} /> }
+          {(p) => <LoginScreen model={props.model} onUpdate={props.onUpdate} /> }
         </Stack.Screen>
         <Stack.Screen name='Signup' >
-          {(p) => <SignupScreen onAuth={props.onAuth} /> }
+          {(p) => <SignupScreen  model={props.model} onUpdate={props.onUpdate} /> }
         </Stack.Screen>
         <Stack.Screen name='ConnectDevice' component={ConnectDeviceScreen} /> 
         <Stack.Screen name='ConfirmEmail' component={ConfirmEmailScreen} />
         <Stack.Screen name='ForgotPassword' component={ForgotPasswordScreen} />
         <Stack.Screen name='NewPassword' component={NewPasswordScreen}/>
         <Stack.Screen name='Home1' > 
-          {(p) => <TabBar authToken={props.authToken} pinnedLocations={props.pinnedLocations} onReload={props.onReload} />}
+          {(p) => <TabBar model={props.model} onUpdate={props.onUpdate} />}
         </Stack.Screen>
         <Stack.Screen name='AddModal' component={AddModal} />
         <Stack.Screen name='ViewModal' component={ViewModal}/>       

@@ -43,6 +43,7 @@ const SignupScreen = (props) => {
     })
     .then((response) => {
       alert("Successfully created an account" + response);
+      // TODO: Update authToken in model
       navigation.navigate('ConnectDevice');
     })
     .catch((error) => {

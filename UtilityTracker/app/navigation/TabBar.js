@@ -53,7 +53,7 @@ const TabBar = (props) => {
         )
       }}
       >
-        {(p) => <HomeScreen authToken={props.authToken}  pinnedLocations={props.pinnedLocations} onReload={props.onReload} /> } 
+        {(p) => <HomeScreen model={props.model} onUpdate={props.onUpdate} /> } 
       </Tab.Screen>
       <Tab.Screen name='Notification' component={NotificationScreen} 
       options={{
