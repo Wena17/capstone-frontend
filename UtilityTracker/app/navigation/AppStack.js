@@ -41,7 +41,7 @@ const Navigation = (props) => {
         <Stack.Screen name='ForgotPassword' component={ForgotPasswordScreen} />
         <Stack.Screen name='NewPassword' component={NewPasswordScreen}/>
         <Stack.Screen name='Home1' > 
-          {(p) => <TabBar authToken={props.authToken} /> }
+          {(p) => <TabBar authToken={props.authToken} pinnedLocations={props.pinnedLocations} onReload={props.onReload} />}
         </Stack.Screen>
         <Stack.Screen name='AddModal' component={AddModal} />
         <Stack.Screen name='ViewModal' component={ViewModal}/>       

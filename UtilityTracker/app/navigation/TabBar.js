@@ -53,7 +53,7 @@ const TabBar = (props) => {
         )
       }}
       >
-        {(p) => <HomeScreen authToken={props.authToken} /> } 
+        {(p) => <HomeScreen authToken={props.authToken}  pinnedLocations={props.pinnedLocations} onReload={props.onReload} /> } 
       </Tab.Screen>
       <Tab.Screen name='Notification' component={NotificationScreen} 
       options={{
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.5,
     elevation: 5
   },
+
 })
 
 export default TabBar;

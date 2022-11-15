@@ -8,6 +8,10 @@ import CustomButton from '../components/CustomButton';
 import CustomBox from '../components/CustomBox';
 
 const HomeScreen = (props) => {
+  console.log("Homescreen: " + JSON.stringify(props.pinnedLocations))
+  if (props.pinnedLocations === null) {
+    fetchPinnedLocations(props.authToken, props.onReload)
+  }
   const navigation = useNavigation();
 
   const onMenuIconPressed = () => {
@@ -123,5 +127,26 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
 })
+
+function fetchPinnedLocations(authToken, setter) {
+  fetch('https://outage-monitor.azurewebsites.net/api/v1/pinned-locations', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json', 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken,
+      }
+    })
+    .then((response) => response.json())
+    .then((json) =>{
+      console.log("App, pinned locations: " + JSON.stringify(json));
+      if(json.status == 'success') {
+        setter(json.locations)
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+}
 
 export default HomeScreen;
