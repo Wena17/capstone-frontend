@@ -2,7 +2,7 @@ import React from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import TabBar from './TabBar';
+import HomeScreen from '../screens/HomeScreen';
 import OutageHistoryScreen from '../screens/OutageHistoryScreen';
 import AlternativePowerSource from '../screens/AlternativePowerSource';
 import ReportOutage from '../screens/ReportOutage';
@@ -15,10 +15,12 @@ import { Ionicons, Octicons, FontAwesome5, MaterialIcons } from '@expo/vector-ic
 
 const Drawer = createDrawerNavigator();
 
-const DrawerNavigation = () => {
+const DrawerNavigation = (props) => {
   return (
     <Drawer.Navigator
-      drawerContent={props => <DrawerScreen {...props} />}
+      drawerContent={prop => <DrawerScreen {...prop
+      
+      } />}
       screenOptions={{
         headerShown: false,
         drawerActiveBackgroundColor: '#5885AF',
@@ -31,13 +33,14 @@ const DrawerNavigation = () => {
       }}>
       <Drawer.Screen
         name="Home"
-        component={TabBar}
         options={{
           drawerIcon: ({color}) => (
             <Ionicons name="home-outline" size={22} color={color} />
           ),
         }}
-      />
+      >
+        {(p) => <HomeScreen model={props.model} onUpdate={props.onUpdate} /> }
+      </Drawer.Screen>
       <Drawer.Screen
         name="Outage History"
         component={OutageHistoryScreen}

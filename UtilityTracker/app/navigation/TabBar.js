@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-import HomeScreen from '../screens/HomeScreen';
+import DrawerNavigation from './DrawerNavigation';
 import OutageMapScreen from '../screens/OutageMapScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 
@@ -53,7 +53,7 @@ const TabBar = (props) => {
         )
       }}
       >
-        {(p) => <HomeScreen model={props.model} onUpdate={props.onUpdate} /> } 
+        {(p) => <DrawerNavigation model={props.model} onUpdate={props.onUpdate} /> } 
       </Tab.Screen>
       <Tab.Screen name='Notification' component={NotificationScreen} 
       options={{

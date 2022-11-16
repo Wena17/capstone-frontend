@@ -1,83 +1,99 @@
-import { View, Text, ScrollView, StyleSheet, SafeAreaView, Pressable, Button, TextInput } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, Pressable, FlatList } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 
 import CustomImageView from '../components/CustomImageView';
 import CustomButton from '../components/CustomButton';
 import CustomBox from '../components/CustomBox';
 
+
 const HomeScreen = (props) => {
-  console.log("Homescreen: " + JSON.stringify(props.model.pinnedLocations))
   if (props.model.pinnedLocations === null) {
     fetchPinnedLocations(props.model, props.onUpdate)
   }
-  const navigation = useNavigation();
+  const navigation = useNavigation();  
+  const [selectedId, setSelectedId] = useState(null);
 
   const onMenuIconPressed = () => {
     navigation.openDrawer();
   }
   
   const handleAddModal = () => {
-    navigation.navigate('AddModal');
+    navigation.dispatch(CommonActions.reset({
+      index: 1,
+      routes: [
+        { name: 'Home1' },
+        {
+          name: 'AddModal',
+        },
+      ],
+    })
+  );
   }
-  const handleViewModal = () => {
-    //TODO Get pinned location in the database and pass as a parameter to view modal
-    navigation.navigate('ViewModal');
-  }
-  
+
+  const renderData = (item) => {
+    return (
+      <CustomBox             
+        text= {item.name}             
+        btnText='View'
+        onPress={() => { 
+          navigation.navigate('ViewModal', { address: item.address, name: item.name})
+        }}
+      /> 
+    )}
+
   return (
     <SafeAreaView>
-      <ScrollView scrollEventThrottle={16}  >
-        <View>
-          <View style={styles.userButton}>
-            <Pressable onPress={onMenuIconPressed}>
-              <AntDesign name="menufold" size={30} color="gray" />
-            </Pressable>
-          </View>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>Schedule outages</Text>
-          </View>
-          <View style={styles.imgContainer}>
-            <ScrollView 
-              horizontal={true} 
-              showsHorizontalScrollIndicator={false}
-            >
-              <CustomImageView 
-                imgSource={{uri:'https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg'}} description='Ongoing cabling'
-              />
-              <CustomImageView 
-                imgSource={{uri: 'https://images.pexels.com/photos/1906658/pexels-photo-1906658.jpeg'}} description='Maintenance'
-              />
-              <CustomImageView 
+    <ScrollView scrollEventThrottle={16}  >
+      <View>
+        <View style={styles.userButton}>
+          <Pressable onPress={onMenuIconPressed}>
+            <AntDesign name="menufold" size={30} color="gray" />
+          </Pressable>
+        </View>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Schedule outages</Text>
+        </View>
+        <View style={styles.imgContainer}>
+          <ScrollView 
+            horizontal={true} 
+            showsHorizontalScrollIndicator={false}
+          >
+            <CustomImageView 
               imgSource={{uri:'https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg'}} description='Ongoing cabling'
-              />              
-              <CustomImageView 
-                description='Ongoing cabling'
+            />
+            <CustomImageView 
+              imgSource={{uri: 'https://images.pexels.com/photos/1906658/pexels-photo-1906658.jpeg'}} description='Maintenance'
+            />
+            <CustomImageView 
+            imgSource={{uri:'https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg'}} description='Ongoing cabling'
+            />              
+            <CustomImageView 
+              description='Ongoing cabling'
+            />
+          </ScrollView>
+        </View>
+      </View>
+      <View>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Pinned Location</Text>
+          <View style={styles.button}>
+            <CustomButton 
+              text='Add' 
+              onPress={handleAddModal} 
               />
-            </ScrollView>
           </View>
         </View>
-        <View>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>Pinned Location</Text>
-            <View style={styles.button}>
-              <CustomButton 
-                text='Add' 
-                onPress={handleAddModal} 
-                />
-            </View>
-          </View>
-        </View>
-        <View>
-          <CustomBox             
-            location='Cebu City' 
-            imgSource = {require("../assets/Pinned.png")}             
-            btnText='View'
-            onPress={handleViewModal}
-          />          
-        </View>
-      </ScrollView>
+      </View>
+    </ScrollView>
+    <FlatList
+      data={props.model.pinnedLocations}
+      renderItem={({item}) => {
+        return renderData(item)
+      }}
+      keyExtractor={item => item.id}
+    />
     </SafeAreaView>
   )
 };

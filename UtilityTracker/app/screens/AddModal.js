@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import { useNavigation} from '@react-navigation/native';
+import { useNavigation, useRoute} from '@react-navigation/native';
 import { Modal } from '../components/CustomModal';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
@@ -11,21 +11,22 @@ import * as Location from 'expo-location';
 
 Geocoder.init(GOOGLE_API_KEY);
 
-const AddModal = ({route}) => {
-  const navigation = useNavigation();
+const AddModal = (props) => {
+  const navigation = useNavigation();  
+  const route = useRoute();
   const [disabled, setDisabled] = useState(false);    
   const [saveDisabled, setSaveDisabled] = useState(true);  
   const [color, setColor] = useState('');
   const [isAddModalVisible, setAddModalVisible] = useState(true);
-  const [value, setValue] = useState('');
+  const [nameValue, setValue] = useState('');
    
   const [location, setLocation] = useState({
     address: "Click get location to display address"
   });
 
-  useEffect(() => {
-    if (route.params?.post) {
-      alert(route.params?.post);
+  if (route.params?.post != null) {
+    useEffect(() => {
+      console.log(route.params?.post);
       setDisabled(true);
       setSaveDisabled(false);
       setColor('DISABLED');
@@ -33,8 +34,8 @@ const AddModal = ({route}) => {
         address: route.params?.post
       });
       isAddModalVisible
-    }
-  }, [route.params?.post]);
+    }, [route.params?.post]);
+  }
 
   const getLocation = async () => {
     setLocation({ 
@@ -70,13 +71,15 @@ const AddModal = ({route}) => {
   
   const handleAddPinned = () => {
     //TODO Add new pinned location in the database
+    fetchPinnedLocation(nameValue, location.address, props.model.authToken, props.onUpdate)
     setAddModalVisible(() => !isAddModalVisible);
-    navigation.navigate('Home1', {screen: 'Home'})
+    navigation.navigate('Home1', {screen: 'Home2'})
   };
   const handleAddDecline = () => {
     //TODO inform user that the data will be lost when they click cancel
+    
     setAddModalVisible(() => !isAddModalVisible);
-    navigation.navigate('Home1', {screen: 'Home'})
+    navigation.navigate('Home1', {screen: 'Home2'})
   }
 
   return (
@@ -90,7 +93,7 @@ const AddModal = ({route}) => {
                 For easier access of the location of your choice
               </Text>
               <View style={styles.input}>
-                <CustomInput value={value} setValue={setValue} placeholder='Name' />
+                <CustomInput value={nameValue} setValue={setValue} placeholder='Name' />
                 <Text style={styles.text}> 
                 {location.address}
                 </Text>
@@ -149,5 +152,27 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
 })
+
+function fetchPinnedLocation(addName, location, model, setter) {
+  fetch('https://outage-monitor.azurewebsites.net/api/v1/add-pinned-location', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        authToken: model,
+        name: addName,
+        address: location,
+      })
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      console.log("Add modal screen, pinned locations: " + JSON.stringify(json));
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+}
 
 export default AddModal

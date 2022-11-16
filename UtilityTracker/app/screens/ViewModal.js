@@ -1,27 +1,22 @@
 
 import { View, Text, StyleSheet } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Modal } from '../components/CustomModal';
 import CustomButton from '../components/CustomButton';
 
-const ViewModal = ({route}) => {
+const ViewModal = (props) => {
+
   const navigation = useNavigation();
+  const route = useRoute();
   const [isAddModalVisible, setAddModalVisible] = useState(true);  
   const [pinnedName, setPinnedName] = useState('Pinned location');
   const [location, setLocation] = useState({
     address: "Loading..."
   });
 
-  useEffect(() => {
-    if (route.params?.post) {
-      alert(route.params?.post);
-      setLocation({ 
-        address: route.params?.post
-      });
-      isAddModalVisible
-    }
-  }, [route.params?.post]);
+
+
   
   const handleViewPinned = () => {
     //TODO pass the parameter address and open in the map.
@@ -37,14 +32,14 @@ const ViewModal = ({route}) => {
       <Modal isVisible={isAddModalVisible}>
         <Modal.Container>
           <View style={styles.modal}>
-            <Modal.Header title={pinnedName} />
+            <Modal.Header title={route.params?.name} />
             <Modal.Body>
               <Text style={styles.text}>
                 For easier access of the location of your choice
               </Text>
               <View style={styles.input}>
                 <Text style={styles.text}> 
-                {location.address}
+                {route.params?.address}
                 </Text>
                 <View style={styles.separator}  />
               </View>
