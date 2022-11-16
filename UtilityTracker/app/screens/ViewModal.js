@@ -1,30 +1,50 @@
-
 import { View, Text, StyleSheet } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, {useState} from 'react';
+import { useNavigation, useRoute, CommonActions } from '@react-navigation/native';
 import { Modal } from '../components/CustomModal';
 import CustomButton from '../components/CustomButton';
 
-const ViewModal = (props) => {
+const ViewModal = () => {
 
   const navigation = useNavigation();
   const route = useRoute();
   const [isAddModalVisible, setAddModalVisible] = useState(true);  
-  const [pinnedName, setPinnedName] = useState('Pinned location');
-  const [location, setLocation] = useState({
-    address: "Loading..."
-  });
-
-
-
   
   const handleViewPinned = () => {
     //TODO pass the parameter address and open in the map.
     setAddModalVisible(() => !isAddModalVisible);
+    navigation.navigate(
+      'Search',  {address: route.params?.address}
+    )
+  };
+  const deletePinned = () => {
+    //TODO delete this pinned location in the database
+    setAddModalVisible(() => !isAddModalVisible);
+    navigation.dispatch(
+      CommonActions.reset({
+      index: 1,
+      routes: [
+        { name: 'ViewModal' },
+        {
+          name: 'Home1',
+        },
+      ],
+    })
+  );
   };
   const handleViewDecline = () => {
     setAddModalVisible(() => !isAddModalVisible);
-    navigation.navigate('Home1', {screen: 'Home'})
+    navigation.dispatch(
+      CommonActions.reset({
+      index: 1,
+      routes: [
+        { name: 'ViewModal' },
+        {
+          name: 'Home1',
+        },
+      ],
+    })
+  );
   }
 
   return (
@@ -47,6 +67,7 @@ const ViewModal = (props) => {
             <Modal.Footer>
               <View>                  
                 <CustomButton text='View in the map' onPress={handleViewPinned}/>
+                <CustomButton text='Delete' onPress={deletePinned}/>
                 <CustomButton text='Cancel' onPress={handleViewDecline} type='SECONDARY'/>
               </View>
             </Modal.Footer>
@@ -67,7 +88,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     width: "100%",
-    height: "50%",
+    height: "70%",
     alignItems: "center",
     justifyContent: "center",
   },  

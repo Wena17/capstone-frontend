@@ -22,6 +22,7 @@ const OutageMapScreen = () => {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
+ 
   const userLocation = async () => {
     let {status} = await Location.requestForegroundPermissionsAsync();
     if(status !== 'granted') {
@@ -36,7 +37,6 @@ const OutageMapScreen = () => {
     });
     Geocoder.from(location.coords.latitude, location.coords.longitude)
       .then(json => {
-        console.log(json);
         var addressComponent = json.results[0].formatted_address;
         alert("This Location:" + '\n' + addressComponent);
       })
@@ -45,6 +45,7 @@ const OutageMapScreen = () => {
   useEffect(() => {
     userLocation();
   }, [])
+   
   return (
     <View style={styles.container}>     
       <MapView style={styles.map} region={mapRegion} >

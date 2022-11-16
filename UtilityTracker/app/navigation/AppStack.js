@@ -46,9 +46,7 @@ const Navigation = (props) => {
         <Stack.Screen name='AddModal' initialParams={{ post: null }} >
           {(p) => <AddModal model={props.model} onUpdate={props.onUpdate} />}
         </Stack.Screen>
-        <Stack.Screen name='ViewModal'>
-          {(p) => <ViewModal model={props.model} onUpdate={props.onUpdate} />}
-        </Stack.Screen>       
+        <Stack.Screen name='ViewModal' component={ViewModal} />      
         <Stack.Screen name='AlternativePowerSource' component={AlternativePowerSource} />
         <Stack.Screen name='AddAlternativePowerSource' component={AddAlternativeScreen} />
         <Stack.Screen name='ViewAlternativePower' component={ViewAlternativePowerScreen} />     

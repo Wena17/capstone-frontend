@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, StyleSheet, SafeAreaView, Pressable, FlatList } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 
@@ -13,14 +13,13 @@ const HomeScreen = (props) => {
     fetchPinnedLocations(props.model, props.onUpdate)
   }
   const navigation = useNavigation();  
-  const [selectedId, setSelectedId] = useState(null);
 
   const onMenuIconPressed = () => {
     navigation.openDrawer();
-  }
-  
+  }  
   const handleAddModal = () => {
-    navigation.dispatch(CommonActions.reset({
+    navigation.dispatch(
+      CommonActions.reset({
       index: 1,
       routes: [
         { name: 'Home1' },
@@ -38,7 +37,20 @@ const HomeScreen = (props) => {
         text= {item.name}             
         btnText='View'
         onPress={() => { 
-          navigation.navigate('ViewModal', { address: item.address, name: item.name})
+          navigation.dispatch(
+            CommonActions.reset({
+            index: 1,
+            routes: [
+              { name: 'Home1' },
+              {
+                name: 'ViewModal',
+                params: {itemId: item.id, 
+                  address: item.address, 
+                  name: item.name}
+              },
+            ],
+          })
+        );
         }}
       /> 
     )}

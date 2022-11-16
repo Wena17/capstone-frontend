@@ -72,9 +72,6 @@ const AddModal = ({route}) => {
         setColor('');
       });
   }  
-  const searchLocation = () => {
-    navigation.navigate('Search');
-  }
   
   const handleAddSource = () => {
     //TODO Add new pinned location in the database
@@ -98,9 +95,6 @@ const AddModal = ({route}) => {
               </Text>
               <View style={styles.input}>
                 <CustomInput value={value} setValue={setValue} placeholder='Name' />
-                <Text style={styles.text}> 
-                {location.address}
-                </Text>
                 <Controller
                   name="payment"
                   defaultValue=""
@@ -125,6 +119,10 @@ const AddModal = ({route}) => {
                     </View>
                   )}
                 />
+                <Text style={styles.text}> 
+                {location.address}
+                </Text>
+                
                 <CustomButton 
                   text='Get Location'                   
                   disabled={disabled}
@@ -132,15 +130,7 @@ const AddModal = ({route}) => {
                   type={color}
                   bgColor='#D7E2EA'
                   fgColor='#2C4251'
-                />  
-                <CustomButton 
-                  text='Search Location' 
-                  disabled={disabled}
-                  onPress={searchLocation} 
-                  type={color}
-                  bgColor='#D7E2EA'
-                  fgColor='#2C4251'
-                />
+                /> 
                 <View style={styles.separator}  />
               </View>
             </Modal.Body>
@@ -168,7 +158,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     width: "100%",
-    height: "90%",
+    height: "87%",
     alignItems: "center",
     justifyContent: "center",
   },  

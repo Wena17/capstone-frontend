@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     width: "100%",
-    height: "75%",
+    height: "80%",
     alignItems: "center",
     justifyContent: "center",
   },  

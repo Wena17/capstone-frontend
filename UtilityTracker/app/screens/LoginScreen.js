@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Image, View, StyleSheet, useWindowDimensions, ScrollView, TextInput } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import Logo from '../assets/UTLogo.png';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
@@ -38,7 +38,17 @@ const LoginScreen = (props) => {
         alert(json.message);
         props.model.authToken = json.auth_token
         props.onUpdate(props.model)
-        navigation.navigate('Home1')
+        navigation.dispatch(
+          CommonActions.reset({
+          index: 1,
+          routes: [
+            { name: 'Login' },
+            {
+              name: 'Home1',
+            },
+          ],
+        })
+      );
       }
       else {
         alert(json.message);
