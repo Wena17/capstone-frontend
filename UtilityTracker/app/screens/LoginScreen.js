@@ -35,20 +35,22 @@ const LoginScreen = (props) => {
     .then((response) => response.json())
     .then((json) => {
       if(json.status == 'success') {
+        // if (props.model.pinnedLocations === null) {
+        //   fetchPinnedLocations(props.model, props.onUpdate)
+        // }
         alert(json.message);
         props.model.authToken = json.auth_token
+        props.model.id = json.user_id
+        props.model.fname = json.fname
         props.onUpdate(props.model)
-        navigation.dispatch(
-          CommonActions.reset({
-          index: 1,
+        navigation.reset({
+          index: 0,
           routes: [
-            { name: 'Login' },
             {
               name: 'Home1',
             },
           ],
         })
-      );
       }
       else {
         alert(json.message);
@@ -132,5 +134,27 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 })
+
+// function fetchPinnedLocations(model, setter) {
+//   fetch('https://outage-monitor.azurewebsites.net/api/v1/pinned-locations', {
+//       method: 'GET',
+//       headers: {
+//         Accept: 'application/json', 
+//         'Content-Type': 'application/json',
+//         'Authorization': 'Bearer ' + model.authToken,
+//       }
+//     })
+//     .then((response) => response.json())
+//     .then((json) =>{
+//       console.log("Home screen, pinned locations: " + JSON.stringify(json));
+//       if(json.status == 'success') {
+//         model.pinnedLocations = json.locations
+//         setter(model)
+//       }
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//     })
+// }
 
 export default LoginScreen;

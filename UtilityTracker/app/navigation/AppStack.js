@@ -20,6 +20,8 @@ import SearchLocationScreen from '../screens/SearchLocationScreen';
 import AddModal from '../screens/AddModal';
 import ViewModal from '../screens/ViewModal';
 import ViewAlternativePowerScreen from '../screens/ViewAlternativePowerScreen';
+//Provider screeen
+import ProTabBar from './ProTabBar';
 
 const Stack = createStackNavigator();
 
@@ -46,12 +48,20 @@ const Navigation = (props) => {
         <Stack.Screen name='AddModal' initialParams={{ post: null }} >
           {(p) => <AddModal model={props.model} onUpdate={props.onUpdate} />}
         </Stack.Screen>
-        <Stack.Screen name='ViewModal' component={ViewModal} />      
+        <Stack.Screen name='ViewModal' >      
+          {(p) => <ViewModal model={props.model} onUpdate={props.onUpdate} />}
+        </Stack.Screen>
         <Stack.Screen name='AlternativePowerSource' component={AlternativePowerSource} />
-        <Stack.Screen name='AddAlternativePowerSource' component={AddAlternativeScreen} />
+        <Stack.Screen name='AddAlternativePowerSource'>
+          {(p) => <AddAlternativeScreen model={props.model} onUpdate={props.onUpdate} />}
+        </Stack.Screen>
         <Stack.Screen name='ViewAlternativePower' component={ViewAlternativePowerScreen} />     
-        <Stack.Screen name='EditProfile' component={EditProfileScreen} />
+        <Stack.Screen name='EditProfile'>      
+          {(p) => <EditProfileScreen model={props.model} onUpdate={props.onUpdate} />}
+        </Stack.Screen>
         <Stack.Screen name='Search' component={SearchLocationScreen}  />
+        
+        <Stack.Screen name='ProviderHome' component={ProTabBar}  />
       </Stack.Navigator>
     </NavigationContainer>
   )

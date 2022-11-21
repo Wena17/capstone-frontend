@@ -50,7 +50,7 @@ const OutageMapScreen = () => {
       <MapView style={styles.map} region={mapRegion} >
         <Marker 
           coordinate={mapRegion}
-          pinColor='black'
+          pinColor="green"
           draggable={true}  
           onDragEnd={(e) => {
             setMapRegion({

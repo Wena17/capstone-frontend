@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, StyleSheet, SafeAreaView, Pressable, FlatList } from 'react-native';
-import React from 'react';
-import { useNavigation, CommonActions } from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import { useNavigation, CommonActions, useRoute } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 
 import CustomImageView from '../components/CustomImageView';
@@ -9,28 +9,31 @@ import CustomBox from '../components/CustomBox';
 
 
 const HomeScreen = (props) => {
-  if (props.model.pinnedLocations === null) {
-    fetchPinnedLocations(props.model, props.onUpdate)
-  }
-  const navigation = useNavigation();  
-
-  const onMenuIconPressed = () => {
-    navigation.openDrawer();
-  }  
-  const handleAddModal = () => {
-    navigation.dispatch(
-      CommonActions.reset({
-      index: 1,
-      routes: [
-        { name: 'Home1' },
-        {
-          name: 'AddModal',
-        },
-      ],
-    })
-  );
-  }
-
+  const [data, setData] = useState([])
+  const [refresh, setRefresh] = useState(true)
+  useEffect(() => {
+    if(refresh) {
+      fetch('https://outage-monitor.azurewebsites.net/api/v1/pinned-locations', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json', 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + props.model.authToken,
+        }
+      })
+      .then((response) => response.json())
+      .then((json) =>{
+        console.log("Home screen, pinned locations: " + JSON.stringify(json));
+        if(json.status == 'success') {
+          setRefresh(false)
+          setData(json.locations)
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    }
+  }, [])
   const renderData = (item) => {
     return (
       <CustomBox             
@@ -49,11 +52,30 @@ const HomeScreen = (props) => {
                   name: item.name}
               },
             ],
-          })
-        );
+            })
+          );
         }}
       /> 
     )}
+  
+  const navigation = useNavigation();  
+
+  const onMenuIconPressed = () => {
+    navigation.openDrawer();
+  }  
+  const handleAddModal = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+      index: 1,
+      routes: [
+        { name: 'Home1' },
+        {
+          name: 'AddModal',
+        },
+      ],
+    })
+  );
+  }
 
   return (
     <SafeAreaView>
@@ -100,11 +122,12 @@ const HomeScreen = (props) => {
       </View>
     </ScrollView>
     <FlatList
-      data={props.model.pinnedLocations}
+      data={data}
       renderItem={({item}) => {
         return renderData(item)
       }}
       keyExtractor={item => item.id}
+      extraData={data}
     />
     </SafeAreaView>
   )
@@ -156,26 +179,6 @@ const styles = StyleSheet.create({
   },
 })
 
-function fetchPinnedLocations(model, setter) {
-  fetch('https://outage-monitor.azurewebsites.net/api/v1/pinned-locations', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json', 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + model.authToken,
-      }
-    })
-    .then((response) => response.json())
-    .then((json) =>{
-      console.log("Home screen, pinned locations: " + JSON.stringify(json));
-      if(json.status == 'success') {
-        model.pinnedLocations = json.locations
-        setter(model)
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-}
+
 
 export default HomeScreen;

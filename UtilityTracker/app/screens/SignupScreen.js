@@ -10,19 +10,36 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const SignupScreen = (props) => {
   const navigation = useNavigation();
-
-  const [accountID, setAccountID] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phoneNo, setPhoneNo] = useState('');
-  const [email, setEmail] = useState('');
+  const [location, setLocation] = useState({
+    latitude: 12.606724756594522,
+    longitude: 122.92937372268332, 
+  })
+  const [accountID, setAccountID] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [phoneNo, setPhoneNo] = useState(null);
+  const [email, setEmail] = useState(null);
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
   const { passwordVerifyVisibility, rightVerifyIcon, handlePasswordVerifyVisibility } =
   useTogglePasswordVisibility();
-  const [password, setPassword] = useState('');
-  const [passwordRepeat, setPasswordRepeat] = useState('');
+  const [password, setPassword] = useState(null);
+  const [passwordRepeat, setPasswordRepeat] = useState(null);
 
+  const userLocation = async () => {
+    let {status} = await Location.requestForegroundPermissionsAsync();
+    if(status !== 'granted') {
+      setErrorMsg('Permission to access location was denied');
+    }
+    let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
+    setLocation({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,    
+    });
+  }
+  useEffect(() => {
+    userLocation();
+  }, [])
   
 
   const onRegisterPressed = () => {
@@ -38,7 +55,9 @@ const SignupScreen = (props) => {
         lastName: lastName,
         phoneNo: phoneNo,
         email: email,
-        password: password
+        password: password,
+        lat: location.latitude,
+        lng: location.longitude,
       })
     })
     .then((response) => {

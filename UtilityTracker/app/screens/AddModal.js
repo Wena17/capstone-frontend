@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import { useNavigation, useRoute} from '@react-navigation/native';
+import { useNavigation, useRoute, CommonActions} from '@react-navigation/native';
 import { Modal } from '../components/CustomModal';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
@@ -71,9 +71,19 @@ const AddModal = (props) => {
   
   const handleAddPinned = () => {
     //TODO Add new pinned location in the database
-    fetchPinnedLocation(nameValue, location.address, props.model.authToken, props.onUpdate)
+    addPinnedLocation(nameValue, location.address, props.model.authToken)
     setAddModalVisible(() => !isAddModalVisible);
-    navigation.navigate('Home1', {screen: 'Home2'})
+    navigation.dispatch(
+      CommonActions.reset({
+      index: 1,
+      routes: [
+        { name: 'Home1' },
+        {
+          name: 'Home1',
+        },
+      ],
+      })
+    );
   };
   const handleAddDecline = () => {
     //TODO inform user that the data will be lost when they click cancel
@@ -153,7 +163,7 @@ const styles = StyleSheet.create({
   },
 })
 
-function fetchPinnedLocation(addName, location, model, setter) {
+function addPinnedLocation(addName, location, model) {
   fetch('https://outage-monitor.azurewebsites.net/api/v1/add-pinned-location', {
       method: 'POST',
       headers: {

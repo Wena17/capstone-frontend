@@ -7,7 +7,7 @@ import CustomImageView from '../components/CustomImageView';
 import CustomButton from '../components/CustomButton';
 import CustomBox from '../components/CustomBox';
 
-const HomeScreen = ({route}) => {
+const HomeScreen = () => {
 
   const navigation = useNavigation();
   const onMenuIconPressed = () => {
@@ -32,7 +32,7 @@ const HomeScreen = ({route}) => {
             </Pressable>
           </View>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Schedule outages</Text>
+            <Text style={styles.title}>Posted scheduled outages</Text>
           </View>
           <View style={styles.imgContainer}>
             <ScrollView 
@@ -73,6 +73,10 @@ const HomeScreen = ({route}) => {
             onPress={handleViewModal}
           />          
         </View>
+        <CustomButton 
+          text='New Scheduled Interruption' 
+          onPress={handleAddModal} 
+          />
       </ScrollView>
     </SafeAreaView>
   )

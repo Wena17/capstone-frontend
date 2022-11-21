@@ -2,24 +2,23 @@ import React from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import HomeScreen from '../screens/HomeScreen';
-import OutageHistoryScreen from '../screens/OutageHistoryScreen';
-import AlternativePowerSource from '../screens/AlternativePowerSource';
-import ReportOutage from '../screens/ReportOutage';
-import HelpScreen from '../screens/HelpScreen';
-import FeedbackScreen from '../screens/FeedbackScreen';
-import AboutUsScreen from '../screens/AboutUsScreen';
-import DrawerScreen from '../screens/DrawerScreen';
+import HomeScreen from '../providerScreen/ProHomeScreen';
+import RepairHistoryScreen from '../providerScreen/ProRepairHistoryScreen';
+import HelpScreen from '../providerScreen/ProHelpScreen';
+import FeedbackScreen from '../providerScreen/ProHelpScreen';
+import AboutUsScreen from '../providerScreen/ProAboutUsScreen';
+import ProDrawerScreen from '../providerScreen/ProDrawerScreen'
 
 import { Ionicons, Octicons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 
 const Drawer = createDrawerNavigator();
 
-const DrawerNavigation = (props) => {
-  
+const ProDrawerNavigation = (props) => {
   return (
     <Drawer.Navigator
-      drawerContent={prop => <DrawerScreen {...prop} />}
+      drawerContent={prop => <ProDrawerScreen {...prop
+      
+      } />}
       screenOptions={{
         headerShown: false,
         drawerActiveBackgroundColor: '#5885AF',
@@ -38,32 +37,14 @@ const DrawerNavigation = (props) => {
           ),
         }}
       >
-        {(p) => <HomeScreen model={props.model} onUpdate={props.onUpdate} /> }
-      </Drawer.Screen>      
+        {(p) => <HomeScreen /> }
+      </Drawer.Screen> 
       <Drawer.Screen
-        name="Alternative Power Source"
-        component={AlternativePowerSource}
-        options={{
-          drawerIcon: ({color}) => (
-            <FontAwesome5 name="superpowers" size={22} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Outage History"
-        component={OutageHistoryScreen}
+        name="Repair History"
+        component={RepairHistoryScreen}
         options={{
           drawerIcon: ({color}) => (
             <Octicons name="history" size={20} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Report Outage"
-        component={ReportOutage}
-        options={{
-          drawerIcon: ({color}) => (
-            <Octicons name="report" size={20} color={color} />
           ),
         }}
       />
@@ -98,4 +79,4 @@ const DrawerNavigation = (props) => {
   );
 };
 
-export default DrawerNavigation;
+export default ProDrawerNavigation;

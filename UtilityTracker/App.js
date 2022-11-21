@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet } from 'react-native';
 import Navigation from './app/navigation/AppStack';
 
 const App = () => {
-  const [model, setModel] = useState({authToken: null, pinnedLocations: null})
+  const [model, setModel] = useState({authToken: null, id: null, fname: null, pinnedLocations: null, alternativeSource: null,})
 
   return ( 
     <SafeAreaView style={styles.root}>

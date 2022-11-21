@@ -16,7 +16,7 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
 import {useNavigation} from '@react-navigation/native'
 
-const DrawerScreen = (props) => {
+const ProDrawerScreen = (props) => {
   const navigation =  useNavigation()
 
   const onEditPressed = () => {
@@ -37,7 +37,7 @@ const DrawerScreen = (props) => {
               fontSize: 18,
               marginBottom: 5,
             }}>
-             Name
+            Rowena
           </Text>
           <View style={{flexDirection: 'row'}}>
             <Pressable>
@@ -87,4 +87,4 @@ const DrawerScreen = (props) => {
   );
 };
 
-export default DrawerScreen
+export default ProDrawerScreen

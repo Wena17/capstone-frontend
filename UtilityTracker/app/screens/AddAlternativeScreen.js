@@ -13,17 +13,21 @@ import * as Location from 'expo-location';
 
 Geocoder.init(GOOGLE_API_KEY);
 
-const AddModal = ({route}) => {
+const AddAlternativeScreen = (props) => {
   const navigation = useNavigation();
+  const [isSourceModalVisible, setSourceModalVisible] = useState(true);
   const [disabled, setDisabled] = useState(false);  
   const [color, setColor] = useState(null);
-  const [isSourceModalVisible, setSourceModalVisible] = useState(true);
-  const [value, setValue] = useState(null);    
+  const [nameValue, setValue] = useState(null);    
   const [location, setLocation] = useState({
     address: "Click get location or search location to locate your address"
   });  
-  const [paymentOpen, setPaymentOpen] = useState(false);
+  const [latLng, setLatLng] = useState({
+    latitude: 12.606724756594522,
+    longitude: 122.92937372268332,
+  });
   const [paymentValue, setPaymentValue] = useState(null);
+  const [paymentOpen, setPaymentOpen] = useState(false);
   const [payment, setPayment] = useState([
     { label: "Free", value: "free" },
     { label: "Per hour", value: "per hour" },    
@@ -32,18 +36,6 @@ const AddModal = ({route}) => {
   const onPaymentOpen = useCallback(() => {
   }, []);
   const { handleSubmit, control } = useForm();
-
-  useEffect(() => {
-    if (route.params?.post) {
-      alert(route.params?.post);
-      setDisabled(true);
-      setColor('DISABLED');
-      setLocation({ 
-        address: route.params?.post
-      });
-      isSourceModalVisible
-    }
-  }, [route.params?.post]);
 
   const getLocation = async () => {
     setLocation({ 
@@ -56,6 +48,10 @@ const AddModal = ({route}) => {
       setErrorMsg('Permission to access location was denied');
     }
     let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
+    setLatLng({ 
+      latitude: location.coords.latitude,
+      longitude:location.coords.longitude,
+    });
     Geocoder.from(location.coords.latitude, location.coords.longitude)
       .then(json => {
         var addressComponent = json.results[0].formatted_address;
@@ -75,6 +71,7 @@ const AddModal = ({route}) => {
   
   const handleAddSource = () => {
     //TODO Add new pinned location in the database
+    addAlternativePowerSource(nameValue, location.address, latLng.latitude, latLng.longitude, props.model.authToken, paymentValue)
     setSourceModalVisible(() => !isSourceModalVisible);
     navigation.navigate('Home1', {screen: 'Alternative Power Source'})
   };
@@ -94,7 +91,7 @@ const AddModal = ({route}) => {
                 For easier access of the location of your choice
               </Text>
               <View style={styles.input}>
-                <CustomInput value={value} setValue={setValue} placeholder='Name' />
+                <CustomInput value={nameValue} setValue={setValue} placeholder='Name' />
                 <Controller
                   name="payment"
                   defaultValue=""
@@ -186,4 +183,29 @@ const styles = StyleSheet.create({
   },
 })
 
-export default AddModal
+function addAlternativePowerSource(addName, location, lat, lng, model, payment) {
+  fetch('https://outage-monitor.azurewebsites.net/api/v1/add-alternative-power-source', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        authToken: model,
+        name: addName,
+        address: location,
+        payment: payment,
+        lat: lat,
+        lng: lng,
+      })
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json.message);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+}
+
+export default AddAlternativeScreen

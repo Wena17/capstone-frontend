@@ -37,7 +37,7 @@ const OutageMapScreen = () => {
     });
     Geocoder.from(location.coords.latitude, location.coords.longitude)
       .then(json => {
-        var addressComponent = json.results[0].formatted_address;
+        var addressComponent = json.results[5].formatted_address;
         alert("This Location:" + '\n' + addressComponent);
       })
       .catch(error => console.warn(error));
@@ -51,7 +51,7 @@ const OutageMapScreen = () => {
       <MapView style={styles.map} region={mapRegion} >
         <Marker 
           coordinate={mapRegion}
-          pinColor='black'
+          pinColor="green"
           draggable={true}  
           onDragEnd={(e) => {
             setMapRegion({
@@ -62,8 +62,7 @@ const OutageMapScreen = () => {
             })
             Geocoder.from(e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude)
               .then(json => {
-                console.log(json);
-                var addressComponent = json.results[0].formatted_address;
+                var addressComponent = json.results[7].formatted_address;
                 alert("Current Location" + '\n' + addressComponent);
               })
               .catch(error => console.warn(error));
@@ -88,7 +87,13 @@ const OutageMapScreen = () => {
               longitude: details.geometry.location.lng,
               latitudeDelta: LATITUDE_DELTA,
               longitudeDelta: LONGITUDE_DELTA,  
-            })            
+            })  
+            Geocoder.from(details.geometry.location.lat, details.geometry.location.lng)
+              .then(json => {
+                var addressComponent = json.results[7].formatted_address;
+                alert("Current Location" + '\n' + addressComponent);
+              })
+              .catch(error => console.warn(error));          
           }}
           query={{
             key: GOOGLE_API_KEY,

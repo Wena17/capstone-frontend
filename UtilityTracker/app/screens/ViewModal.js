@@ -1,15 +1,15 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import React, {useState} from 'react';
 import { useNavigation, useRoute, CommonActions } from '@react-navigation/native';
 import { Modal } from '../components/CustomModal';
 import CustomButton from '../components/CustomButton';
 
-const ViewModal = () => {
+const ViewModal = (props) => {
 
   const navigation = useNavigation();
   const route = useRoute();
   const [isAddModalVisible, setAddModalVisible] = useState(true);  
-  
+
   const handleViewPinned = () => {
     //TODO pass the parameter address and open in the map.
     setAddModalVisible(() => !isAddModalVisible);
@@ -18,33 +18,41 @@ const ViewModal = () => {
     )
   };
   const deletePinned = () => {
-    //TODO delete this pinned location in the database
-    setAddModalVisible(() => !isAddModalVisible);
-    navigation.dispatch(
-      CommonActions.reset({
-      index: 1,
-      routes: [
-        { name: 'ViewModal' },
+    Alert.alert(
+      "Confirmation",
+      "Are you sure to delete this pinned location?",
+      [
         {
-          name: 'Home1',
+          text: "Cancel",
+          onPress: () => {
+          setAddModalVisible(() => !isAddModalVisible)
+          navigation.navigate('Home1', {screen: 'Home2'})
+          }
         },
-      ],
-    })
-  );
+        { 
+          text: "OK", onPress: () => {
+            console.log(route.params?.itemId)
+            deletePinnedLocation(route.params?.itemId, props.model.authToken)
+            setAddModalVisible(() => !isAddModalVisible);
+            navigation.dispatch(
+              CommonActions.reset({
+              index: 1,
+              routes: [
+                { name: 'Home1' },
+                {
+                  name: 'Home1',
+                },
+              ],
+              })
+            );
+          }
+        }
+      ]
+    );
   };
   const handleViewDecline = () => {
     setAddModalVisible(() => !isAddModalVisible);
-    navigation.dispatch(
-      CommonActions.reset({
-      index: 1,
-      routes: [
-        { name: 'ViewModal' },
-        {
-          name: 'Home1',
-        },
-      ],
-    })
-  );
+    navigation.navigate('Home1')
   }
 
   return (
@@ -100,5 +108,26 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
 })
+
+function deletePinnedLocation(id, model) {
+  fetch('https://outage-monitor.azurewebsites.net/api/v1/pinned-location/' + id, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + model
+      }
+    })
+    .then((response) => {
+      if (response.status = 204) {
+        alert("Deleted pinned location");
+      } else {
+        alert("delete pinned location failed, try again")
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+}
 
 export default ViewModal
