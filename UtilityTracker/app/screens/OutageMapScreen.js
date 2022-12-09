@@ -1,20 +1,33 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { View, StyleSheet, Dimensions, Button, Text  } from 'react-native';
 import MapView, { Callout, Marker } from 'react-native-maps';
-import { GOOGLE_API_KEY } from '../../environments';
-
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Constants from 'expo-constants';
+import ActionSheet from 'react-native-actions-sheet';
+
+import { GOOGLE_API_KEY } from '../../environments';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Geocoder from 'react-native-geocoding';
 
 import * as Location from 'expo-location';
 
 const { height, width } = Dimensions.get( 'window' );
-const LATITUDE_DELTA = 0.0190;
+const LATITUDE_DELTA = 20.0;//0.0190;
 const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
 Geocoder.init(GOOGLE_API_KEY);
 
-const OutageMapScreen = () => {
+const OutageMapScreen = (props) => {
+  let actionSheet = useRef();
+  var optionArray = [
+    'Option 1',
+    'Option 2',
+    'Option 3',
+    'Option 4',
+    'Cancel'
+  ];
+ 
+  const showActionSheet = () => {
+    actionSheet.current.show();
+  };
 
   const [mapRegion, setMapRegion] = useState({
     latitude: 12.606724756594522,
@@ -22,7 +35,27 @@ const OutageMapScreen = () => {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
- 
+  const [devices, setDevices] = useState([])
+  
+  useEffect(() => {
+      fetch('https://outage-monitor.azurewebsites.net/api/v1/devices?lat='+ mapRegion.latitude + "&long=" + mapRegion.longitude + "&lat_delta=" + mapRegion.latitudeDelta + "&long_delta=" + mapRegion.longitudeDelta, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json', 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + props.model.authToken,
+        }
+      })
+      .then((response) =>  response.json())
+      .then((json) => {
+          setDevices(json.devices)
+          console.log("Devices: " + JSON.stringify(devices))
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    }, [])
+
   const userLocation = async () => {
     let {status} = await Location.requestForegroundPermissionsAsync();
     if(status !== 'granted') {
@@ -35,10 +68,11 @@ const OutageMapScreen = () => {
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA,      
     });
+    console.log(location.coords.latitude + " : " + location.coords.longitude)
     Geocoder.from(location.coords.latitude, location.coords.longitude)
       .then(json => {
         var addressComponent = json.results[5].formatted_address;
-        alert("This Location:" + '\n' + addressComponent);
+        console.log("This Location:" + '\n' + addressComponent);
       })
       .catch(error => console.warn(error));
   }
@@ -52,7 +86,8 @@ const OutageMapScreen = () => {
         <Marker 
           coordinate={mapRegion}
           pinColor="green"
-          draggable={true}  
+          draggable={true}
+          onPress={showActionSheet}
           onDragEnd={(e) => {
             setMapRegion({
               latitude: e.nativeEvent.coordinate.latitude,
@@ -107,6 +142,14 @@ const OutageMapScreen = () => {
           )}
         />
       </View>
+      {/* TODO: Get details of the outage from the database */}
+      <ActionSheet
+          ref={actionSheet}
+          title={'Which one do you like ?'}
+          options={optionArray}
+          cancelButtonIndex={4}
+          destructiveButtonIndex={1}
+        />
     </View>
   )
 }

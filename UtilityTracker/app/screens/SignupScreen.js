@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, TextInput, Text, ScrollView, Pressable} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CustomButton from '../components/CustomButton';
@@ -7,12 +7,14 @@ import { useTogglePasswordVisibility } from '../components/UseTogglePasswordVisi
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import * as Location from 'expo-location';
+
 
 const SignupScreen = (props) => {
   const navigation = useNavigation();
-  const [location, setLocation] = useState({
-    latitude: 12.606724756594522,
-    longitude: 122.92937372268332, 
+  const [curLocation, setCurLocation] = useState({
+    latitude: null,
+    longitude: null, 
   })
   const [accountID, setAccountID] = useState(null);
   const [firstName, setFirstName] = useState(null);
@@ -30,12 +32,13 @@ const SignupScreen = (props) => {
     let {status} = await Location.requestForegroundPermissionsAsync();
     if(status !== 'granted') {
       setErrorMsg('Permission to access location was denied');
+    }else{
+      let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
+      setCurLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude  
+      });
     }
-    let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
-    setLocation({
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,    
-    });
   }
   useEffect(() => {
     userLocation();
@@ -56,8 +59,8 @@ const SignupScreen = (props) => {
         phoneNo: phoneNo,
         email: email,
         password: password,
-        lat: location.latitude,
-        lng: location.longitude,
+        lat: curLocation.latitude,
+        lng: curLocation.longitude,
       })
     })
     .then((response) => {

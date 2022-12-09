@@ -31,13 +31,15 @@ const TabBar = (props) => {
       tabBarInactiveTintColor: '#8499B1',
       tabBarActiveTintColor: '#274472',
     }}>
-      <Tab.Screen name='Outage map' component={OutageMapScreen}
+      <Tab.Screen name='Outage map'
         options={{
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons name="map-marker-distance" color={color} size={size} />
           ),
         }}
-        />      
+        >
+          {(p) => <OutageMapScreen model={props.model} onUpdate={props.onUpdate} /> } 
+      </Tab.Screen>      
       <Tab.Screen name='Home2' 
       options={{
         tabBarIconStyle: {

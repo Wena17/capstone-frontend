@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, StyleSheet, SafeAreaView, Pressable, FlatList } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import { useNavigation, CommonActions, useRoute } from '@react-navigation/native';
+import { useNavigation, CommonActions} from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 
 import CustomImageView from '../components/CustomImageView';
@@ -23,7 +23,6 @@ const HomeScreen = (props) => {
       })
       .then((response) => response.json())
       .then((json) =>{
-        console.log("Home screen, pinned locations: " + JSON.stringify(json));
         if(json.status == 'success') {
           setRefresh(false)
           setData(json.locations)

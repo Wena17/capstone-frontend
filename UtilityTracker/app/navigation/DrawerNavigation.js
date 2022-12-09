@@ -6,7 +6,6 @@ import HomeScreen from '../screens/HomeScreen';
 import OutageHistoryScreen from '../screens/OutageHistoryScreen';
 import AlternativePowerSource from '../screens/AlternativePowerSource';
 import ReportOutage from '../screens/ReportOutage';
-import HelpScreen from '../screens/HelpScreen';
 import FeedbackScreen from '../screens/FeedbackScreen';
 import AboutUsScreen from '../screens/AboutUsScreen';
 import DrawerScreen from '../screens/DrawerScreen';
@@ -64,15 +63,6 @@ const DrawerNavigation = (props) => {
         options={{
           drawerIcon: ({color}) => (
             <Octicons name="report" size={20} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Help"
-        component={HelpScreen}
-        options={{
-          drawerIcon: ({color}) => (
-            <Ionicons name="md-help-circle-outline" size={28} color={color} />
           ),
         }}
       />

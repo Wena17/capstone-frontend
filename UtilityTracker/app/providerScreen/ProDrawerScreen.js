@@ -37,7 +37,7 @@ const ProDrawerScreen = (props) => {
               fontSize: 18,
               marginBottom: 5,
             }}>
-            Rowena
+            Technician
           </Text>
           <View style={{flexDirection: 'row'}}>
             <Pressable>

@@ -65,29 +65,57 @@ const SearchLocationScreen = () => {
   }
 
   const addLocation = () => {
-    navigation.reset({
-      index: 0,
-      routes: [
-        {
-          name:  'AddModal',
-          params: { post: location.address},
-        },
-      ],
-    })
-  }
-
-  const onBackPressed = () => {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
+    if(route.params?.goto == 'provider'){
+      navigation.reset({
+        index: 0,
         routes: [
-          { name: 'Search' },
           {
-            name: 'Home1',
+            name:  'AddScheduleOutage',
+            params: { post: location.address, lat: mapRegion.latitude, lng: mapRegion.longitude},
           },
         ],
       })
-    );
+    }
+    else {      
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name:  'AddModal',
+            params: { post: location.address},
+          },
+        ],
+      })
+    }
+  }
+
+  const onBackPressed = () => {
+    if(route.params?.goto == 'provider'){
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            { name: 'Search' },
+            {
+              name: 'ProviderHome',
+            },
+          ],
+        })
+      );
+    }
+    else {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            { name: 'Search' },
+            {
+              name: 'Home1',
+            },
+          ],
+        })
+      );
+    }
   }
   const onCancelPressed = () => {
     navigation.dispatch(
@@ -108,7 +136,7 @@ const SearchLocationScreen = () => {
       <MapView style={styles.map} region={mapRegion} >
         <Marker 
           coordinate={mapRegion}
-          pinColor='black'
+          pinColor="green"
         >
           <Callout>
             <Text>You're here</Text>
@@ -154,7 +182,7 @@ const SearchLocationScreen = () => {
             })                 
             Geocoder.from(details.geometry.location.lat, details.geometry.location.lng)
             .then(json => {
-              var addressComponent = json.results[0].formatted_address;
+              var addressComponent = json.results[3].formatted_address;
               setLocation({ 
                 address: addressComponent 
               });

@@ -68,7 +68,17 @@ const ReportOutage = () => {
   };
   const onDecline = () => {
     setReportVisible(() => !reportVisible);
-    navigation.getParent().getParent()
+    navigation.dispatch(
+      CommonActions.reset({
+      index: 1,
+      routes: [
+        { name: 'Home1' },
+        {
+          name: 'Home1',
+        },
+      ],
+      })
+    );
   }
 
   return (
@@ -126,7 +136,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     width: "100%",
-    height: "60%",
+    height: "65%",
     alignItems: "center",
     justifyContent: "center",
   },  

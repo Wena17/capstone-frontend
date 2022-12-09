@@ -31,7 +31,7 @@ const ProNotificationScreen = () => {
         <CustomNotif
           title='Tittle'
           info='Outage info'           
-          btnText='Delete'
+          btnText='View'
           onPress={onDeletePressed}
         />   
         </View>

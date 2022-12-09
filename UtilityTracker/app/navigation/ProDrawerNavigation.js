@@ -4,12 +4,11 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import HomeScreen from '../providerScreen/ProHomeScreen';
 import RepairHistoryScreen from '../providerScreen/ProRepairHistoryScreen';
-import HelpScreen from '../providerScreen/ProHelpScreen';
-import FeedbackScreen from '../providerScreen/ProHelpScreen';
+import FeedbackScreen from '../providerScreen/ProFeedbackScreen';
 import AboutUsScreen from '../providerScreen/ProAboutUsScreen';
 import ProDrawerScreen from '../providerScreen/ProDrawerScreen'
 
-import { Ionicons, Octicons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, Octicons, MaterialIcons } from '@expo/vector-icons';
 
 const Drawer = createDrawerNavigator();
 
@@ -45,15 +44,6 @@ const ProDrawerNavigation = (props) => {
         options={{
           drawerIcon: ({color}) => (
             <Octicons name="history" size={20} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Help"
-        component={HelpScreen}
-        options={{
-          drawerIcon: ({color}) => (
-            <Ionicons name="md-help-circle-outline" size={28} color={color} />
           ),
         }}
       />

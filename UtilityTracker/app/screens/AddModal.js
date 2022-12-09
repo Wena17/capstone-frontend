@@ -70,7 +70,6 @@ const AddModal = (props) => {
   }
   
   const handleAddPinned = () => {
-    //TODO Add new pinned location in the database
     addPinnedLocation(nameValue, location.address, props.model.authToken)
     setAddModalVisible(() => !isAddModalVisible);
     navigation.dispatch(
@@ -108,7 +107,7 @@ const AddModal = (props) => {
                 {location.address}
                 </Text>
                 <CustomButton 
-                  text='Get Location'                   
+                  text='Current Location'                   
                   disabled={disabled}
                   onPress={getLocation} 
                   type={color}
@@ -117,9 +116,7 @@ const AddModal = (props) => {
                 />  
                 <CustomButton 
                   text='Search Location' 
-                  disabled={disabled}
-                  onPress={searchLocation} 
-                  type={color}
+                  onPress={searchLocation}
                   bgColor='#D7E2EA'
                   fgColor='#2C4251'
                 />

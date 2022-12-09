@@ -22,6 +22,7 @@ import ViewModal from '../screens/ViewModal';
 import ViewAlternativePowerScreen from '../screens/ViewAlternativePowerScreen';
 //Provider screeen
 import ProTabBar from './ProTabBar';
+import ProAddScheduleOutages from '../providerScreen/ProAddScheduleOutages';
 
 const Stack = createStackNavigator();
 
@@ -62,6 +63,9 @@ const Navigation = (props) => {
         <Stack.Screen name='Search' component={SearchLocationScreen}  />
         
         <Stack.Screen name='ProviderHome' component={ProTabBar}  />
+        <Stack.Screen name='AddScheduleOutage'> 
+          {(p) => <ProAddScheduleOutages model={props.model} onUpdate={props.onUpdate} />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -67,9 +67,9 @@ const styles = StyleSheet.create({
   },
   footer: {    
     flex: 1,
-    alignContent: "flex-end",
-    top: '2%',
-    width: '80%'
+    justifyContent: "flex-end",
+    top: '5%',
+    width: '80%',
   },
 });
 

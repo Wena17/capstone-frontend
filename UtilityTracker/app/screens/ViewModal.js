@@ -11,10 +11,9 @@ const ViewModal = (props) => {
   const [isAddModalVisible, setAddModalVisible] = useState(true);  
 
   const handleViewPinned = () => {
-    //TODO pass the parameter address and open in the map.
     setAddModalVisible(() => !isAddModalVisible);
     navigation.navigate(
-      'Search',  {address: route.params?.address}
+      'Search',  {address: route.params?.address,}
     )
   };
   const deletePinned = () => {
@@ -25,8 +24,7 @@ const ViewModal = (props) => {
         {
           text: "Cancel",
           onPress: () => {
-          setAddModalVisible(() => !isAddModalVisible)
-          navigation.navigate('Home1', {screen: 'Home2'})
+          navigation.goBack()
           }
         },
         { 

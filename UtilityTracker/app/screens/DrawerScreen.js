@@ -37,7 +37,7 @@ const DrawerScreen = (props) => {
               fontSize: 18,
               marginBottom: 5,
             }}>
-             Name
+            Wena
           </Text>
           <View style={{flexDirection: 'row'}}>
             <Pressable>
