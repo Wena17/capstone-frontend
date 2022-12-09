@@ -11,7 +11,7 @@ import Geocoder from 'react-native-geocoding';
 import * as Location from 'expo-location';
 
 const { height, width } = Dimensions.get( 'window' );
-const LATITUDE_DELTA = 20.0;//0.0190;
+const LATITUDE_DELTA = 1;
 const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
 Geocoder.init(GOOGLE_API_KEY);
 
@@ -37,25 +37,6 @@ const OutageMapScreen = (props) => {
   });
   const [devices, setDevices] = useState([])
   
-  useEffect(() => {
-      fetch('https://outage-monitor.azurewebsites.net/api/v1/devices?lat='+ mapRegion.latitude + "&long=" + mapRegion.longitude + "&lat_delta=" + mapRegion.latitudeDelta + "&long_delta=" + mapRegion.longitudeDelta, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json', 
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + props.model.authToken,
-        }
-      })
-      .then((response) =>  response.json())
-      .then((json) => {
-          setDevices(json.devices)
-          console.log("Devices: " + JSON.stringify(devices))
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-    }, [])
-
   const userLocation = async () => {
     let {status} = await Location.requestForegroundPermissionsAsync();
     if(status !== 'granted') {
@@ -69,6 +50,23 @@ const OutageMapScreen = (props) => {
       longitudeDelta: LONGITUDE_DELTA,      
     });
     console.log(location.coords.latitude + " : " + location.coords.longitude)
+    fetch('https://outage-monitor.azurewebsites.net/api/v1/devices?lat='+ location.coords.latitude + "&long=" + location.coords.longitude + "&lat_delta=" + LATITUDE_DELTA + "&long_delta=" + LONGITUDE_DELTA, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json', 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + props.model.authToken,
+      }
+    })
+    .then((response) =>  response.json())
+    .then((json) => {
+        setDevices(json.devices)
+        console.log("Devices: " + JSON.stringify(json.devices))
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+    
     Geocoder.from(location.coords.latitude, location.coords.longitude)
       .then(json => {
         var addressComponent = json.results[5].formatted_address;
@@ -79,11 +77,40 @@ const OutageMapScreen = (props) => {
   useEffect(() => {
     userLocation();
   }, [])
+
+  // useEffect(() => {
+  //   fetch('https://outage-monitor.azurewebsites.net/api/v1/devices?lat='+ mapRegion.latitude + "&long=" + mapRegion.longitude + "&lat_delta=" + mapRegion.latitudeDelta + "&long_delta=" + mapRegion.longitudeDelta, {
+  //     method: 'GET',
+  //     headers: {
+  //       Accept: 'application/json', 
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer ' + props.model.authToken,
+  //     }
+  //   })
+  //   .then((response) =>  response.json())
+  //   .then((json) => {
+  //       setDevices(json.devices)
+  //       console.log("Devices: " + JSON.stringify(devices))
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   })
+  // }, [])
+
+  mapMarkers = () => {
+    return devices.map((device) => <Marker
+      key={device.id}
+      coordinate={{ latitude: device.lat, longitude: device.lng }}
+      title= 'Device'
+      description= "A very ingeneous device doing beautiful things"
+    >
+    </Marker >)
+  }
    
   return (
     <View style={styles.container}>     
       <MapView style={styles.map} region={mapRegion} >
-        <Marker 
+        {/* <Marker 
           coordinate={mapRegion}
           pinColor="green"
           draggable={true}
@@ -106,7 +133,8 @@ const OutageMapScreen = (props) => {
           <Callout>
             <Text>You're here</Text>
           </Callout>
-        </Marker>
+        </Marker> */}
+        {mapMarkers()}
       </MapView>
       <View style={styles.searchContainer}>
         <GooglePlacesAutocomplete          
