@@ -29,13 +29,18 @@ const AlternativePowerSource = () => {
               <AntDesign name="menufold" size={30} color="gray" />
             </Pressable>
           </View>
-          <Text style={styles.title}>Alternative Power Source</Text>
+        </View>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Posted Alternative Power Source</Text>
         </View>
         <View style={styles.addBtnContainer}>
           <CustomButton 
             text='Add' 
             onPress={onAddPressed} 
           />
+        </View>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Nearby Alternative Power Source</Text>
         </View>
         <View>
           <CustomBox             
@@ -57,9 +62,10 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '700',
     paddingTop: 12,
+    margin: 10,
   },
   titleContainer: { 
     flex: 1, 

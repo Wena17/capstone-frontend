@@ -36,6 +36,7 @@ const OutageMapScreen = (props) => {
     longitudeDelta: LONGITUDE_DELTA,
   });
   const [devices, setDevices] = useState([])
+  // const [pinColor, setPinColor] = useState("green")
   
   const userLocation = async () => {
     let {status} = await Location.requestForegroundPermissionsAsync();
@@ -70,7 +71,7 @@ const OutageMapScreen = (props) => {
     Geocoder.from(location.coords.latitude, location.coords.longitude)
       .then(json => {
         var addressComponent = json.results[5].formatted_address;
-        console.log("This Location:" + '\n' + addressComponent);
+        console.log("This Location: " + addressComponent);
       })
       .catch(error => console.warn(error));
   }
@@ -78,31 +79,15 @@ const OutageMapScreen = (props) => {
     userLocation();
   }, [])
 
-  // useEffect(() => {
-  //   fetch('https://outage-monitor.azurewebsites.net/api/v1/devices?lat='+ mapRegion.latitude + "&long=" + mapRegion.longitude + "&lat_delta=" + mapRegion.latitudeDelta + "&long_delta=" + mapRegion.longitudeDelta, {
-  //     method: 'GET',
-  //     headers: {
-  //       Accept: 'application/json', 
-  //       'Content-Type': 'application/json',
-  //       'Authorization': 'Bearer ' + props.model.authToken,
-  //     }
-  //   })
-  //   .then((response) =>  response.json())
-  //   .then((json) => {
-  //       setDevices(json.devices)
-  //       console.log("Devices: " + JSON.stringify(devices))
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   })
-  // }, [])
 
   mapMarkers = () => {
     return devices.map((device) => <Marker
       key={device.id}
+      pinColor={device.outage ? "red" : "green"}
       coordinate={{ latitude: device.lat, longitude: device.lng }}
       title= 'Device'
       description= "A very ingeneous device doing beautiful things"
+      image={device.outage ? require('../assets/outagePin.png') : require('../assets/noOutagePin.png') }
     >
     </Marker >)
   }
