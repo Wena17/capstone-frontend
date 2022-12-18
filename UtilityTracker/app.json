@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "UtilityTracker",
-    "slug": "UtilityTracker",
+    "slug": "utility-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",
@@ -28,6 +28,12 @@
     },
     "web": {
       "favicon": "./app/assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d8bbd26e-dcd6-44f6-90b8-c4b65237d706"
+      }
+    },
+    "owner": "wanda17"
   }
 }
