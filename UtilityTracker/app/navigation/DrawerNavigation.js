@@ -41,13 +41,14 @@ const DrawerNavigation = (props) => {
       </Drawer.Screen>      
       <Drawer.Screen
         name="Alternative Power Source"
-        component={AlternativePowerSource}
         options={{
           drawerIcon: ({color}) => (
             <FontAwesome5 name="superpowers" size={22} color={color} />
           ),
         }}
-      />
+      >
+        {(p) => <AlternativePowerSource model={props.model} onUpdate={props.onUpdate} /> }
+      </Drawer.Screen> 
       <Drawer.Screen
         name="Outage History"
         component={OutageHistoryScreen}

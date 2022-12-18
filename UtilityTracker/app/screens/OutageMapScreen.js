@@ -84,6 +84,7 @@ const OutageMapScreen = (props) => {
     return devices.map((device) => <Marker
       key={device.id}
       pinColor={device.outage ? "red" : "green"}
+      onPress={showActionSheet}
       coordinate={{ latitude: device.lat, longitude: device.lng }}
       title= 'Device'
       description= "A very ingeneous device doing beautiful things"

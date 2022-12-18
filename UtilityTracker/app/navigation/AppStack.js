@@ -52,7 +52,6 @@ const Navigation = (props) => {
         <Stack.Screen name='ViewModal' >      
           {(p) => <ViewModal model={props.model} onUpdate={props.onUpdate} />}
         </Stack.Screen>
-        <Stack.Screen name='AlternativePowerSource' component={AlternativePowerSource} />
         <Stack.Screen name='AddAlternativePowerSource'>
           {(p) => <AddAlternativeScreen model={props.model} onUpdate={props.onUpdate} />}
         </Stack.Screen>
