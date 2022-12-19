@@ -29,15 +29,14 @@ const LoginScreen = (props) => {
       },
       body: JSON.stringify({
         email: email,
-        password: password
+        password: password,
+        pushToken: props.model.pushToken
       })
     })
     .then((response) => response.json())
     .then((json) => {
       if(json.status == 'success') {
-        // if (props.model.pinnedLocations === null) {
-        //   fetchPinnedLocations(props.model, props.onUpdate)
-        // }
+        console.log("Login push token: " + props.model.pushToken)
         alert(json.message);
         props.model.authToken = json.auth_token
         props.model.id = json.user_id
@@ -135,23 +134,21 @@ const styles = StyleSheet.create({
   },
 })
 
-// function fetchPinnedLocations(model, setter) {
-//   fetch('https://outage-monitor.azurewebsites.net/api/v1/pinned-locations', {
-//       method: 'GET',
+// function pushNotification(pushToken, authToken) {
+//   fetch('https://outage-monitor.azurewebsites.net/api/v1/users/' + json.user_id + '/pushToken', {
+//       method: 'POST',
 //       headers: {
 //         Accept: 'application/json', 
 //         'Content-Type': 'application/json',
-//         'Authorization': 'Bearer ' + model.authToken,
-//       }
+//         'Authorization': 'Bearer ' + authToken,
+//       },
+//       body: JSON.stringify({
+//         pushToken: pushToken
+//       })
 //     })
-//     .then((response) => response.json())
-//     .then((json) =>{
-//       console.log("Home screen, pinned locations: " + JSON.stringify(json));
-//       if(json.status == 'success') {
-//         model.pinnedLocations = json.locations
-//         setter(model)
-//       }
-//     })
+//     .then((response) => { if (response.status !== 200) {
+//       console.log("Push token not accepted")
+//     }})
 //     .catch((error) => {
 //       console.error(error);
 //     })

@@ -15,15 +15,14 @@ Notifications.setNotificationHandler({
 });
 
 const App = () => {
-  const [model, setModel] = useState({authToken: null, id: null, fname: null, pinnedLocations: null, alternativeSource: null,})
+  const [model, setModel] = useState({authToken: null, id: null, fname: null, pinnedLocations: null, alternativeSource: null, pushToken: null})
 
-  const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    registerForPushNotificationsAsync().then(token => setModel({ ...model, pushToken: token}))
 
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
