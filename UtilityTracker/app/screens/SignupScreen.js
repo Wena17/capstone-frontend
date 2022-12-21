@@ -61,11 +61,15 @@ const SignupScreen = (props) => {
         password: password,
         lat: curLocation.latitude,
         lng: curLocation.longitude,
+        admin: false,
+        technician: false
       })
     })
-    .then((response) => {
-      alert("Successfully created an account" + response);
-      // TODO: Update authToken in model
+    .then((response) => response.json())
+    .then((json) => {            
+      props.model.authToken = json.auth_token
+      props.model.id = json.user_id      
+      props.onUpdate(props.model)
       navigation.navigate('ConnectDevice');
     })
     .catch((error) => {

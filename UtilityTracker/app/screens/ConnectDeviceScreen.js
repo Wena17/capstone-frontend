@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Button, Linking, Alert } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useNavigation } from '@react-navigation/native';
 
-const ConnectDeviceScreen = () => {
+const ConnectDeviceScreen = (props) => {
   const navigation = useNavigation();
 
   const [hasPermission, setHasPermission] = useState(null);
@@ -29,7 +29,7 @@ const ConnectDeviceScreen = () => {
           onPress: () => navigation.navigate('Login'),
           style: "cancel"
         },
-        { text: "Continue", onPress: () => {Linking.openURL(data)} }
+        { text: "Continue", onPress: () => {Linking.openURL(data + "/user/" + props.model.id)} }
       ]);
   };
 

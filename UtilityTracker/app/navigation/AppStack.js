@@ -39,7 +39,9 @@ const Navigation = (props) => {
         <Stack.Screen name='Signup' >
           {(p) => <SignupScreen  model={props.model} onUpdate={props.onUpdate} /> }
         </Stack.Screen>
-        <Stack.Screen name='ConnectDevice' component={ConnectDeviceScreen} /> 
+        <Stack.Screen name='ConnectDevice' > 
+          {(p) => <ConnectDeviceScreen  model={props.model} onUpdate={props.onUpdate} /> }
+        </Stack.Screen>
         <Stack.Screen name='ConfirmEmail' component={ConfirmEmailScreen} />
         <Stack.Screen name='ForgotPassword' component={ForgotPasswordScreen} />
         <Stack.Screen name='NewPassword' component={NewPasswordScreen}/>
