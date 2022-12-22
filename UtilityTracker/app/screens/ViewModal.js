@@ -48,6 +48,39 @@ const ViewModal = (props) => {
       ]
     );
   };
+  const deleteAlternative = () => {
+    Alert.alert(
+      "Confirmation",
+      "Are you sure to delete your posted alternative power source?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {
+          navigation.goBack()
+          }
+        },
+        { 
+          text: "OK", onPress: () => {
+            console.log(route.params?.itemId)
+            deleteAlternativePS(route.params?.itemId, props.model.authToken)
+            setAddModalVisible(() => !isAddModalVisible);
+            navigation.dispatch(
+              CommonActions.reset({
+              index: 1,
+              routes: [
+                { name: 'Home1' },
+                {
+                  // TODO return to aps screen
+                  name: 'Home1',
+                },
+              ],
+              })
+            );
+          }
+        }
+      ]
+    );
+  };
   const handleViewDecline = () => {
     setAddModalVisible(() => !isAddModalVisible);
     navigation.navigate('Home1')
@@ -73,7 +106,7 @@ const ViewModal = (props) => {
             <Modal.Footer>
               <View>                  
                 <CustomButton text='View in the map' onPress={handleViewPinned}/>
-                <CustomButton text='Delete' onPress={deletePinned}/>
+                <CustomButton text='Delete' onPress={route.params?.env ? deleteAlternative : deletePinned}/>
                 <CustomButton text='Cancel' onPress={handleViewDecline} type='SECONDARY'/>
               </View>
             </Modal.Footer>
@@ -128,4 +161,24 @@ function deletePinnedLocation(id, model) {
     })
 }
 
+function deleteAlternativePS(id, model) {
+  fetch('https://outage-monitor.azurewebsites.net/api/v1/alternative-power-source/' + id, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + model
+      }
+    })
+    .then((response) => {
+      if (response.status = 204) {
+        alert("Deleted alternative power source");
+      } else {
+        alert("deleting alternative power source failed, try again")
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+}
 export default ViewModal

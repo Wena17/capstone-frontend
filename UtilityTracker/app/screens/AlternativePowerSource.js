@@ -50,7 +50,7 @@ const AlternativePowerSource = (props) => {
               { name: 'Home1' },
               {
                 name: 'ViewModal',
-                params: {itemId: item.id, 
+                params: {env: 'aps', itemId: item.id, 
                   address: item.address, 
                   name: item.name}
               },
